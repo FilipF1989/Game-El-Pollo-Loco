@@ -1,0 +1,18 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url(/img/5_background/complete_background.png);
+    height: 100vh;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+
+canvas {
+    background-color: black;
+}
+
