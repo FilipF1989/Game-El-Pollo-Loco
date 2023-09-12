@@ -4,12 +4,21 @@ class World {
     character = new Character();
     level = level1;
     canvas;
+    offset;
     ctx;
     keyboard;
     camera_x = 0;
     statusbarLive = new StatusbarLive();
     statusbarCoins = new StatusbarCoins();
     statusbarBottles = new StatusbarBottles();
+    throwableObjects = [];
+    coins = [
+        new CollectableObjectsCoins(400),
+        new CollectableObjectsCoins(800),
+        new CollectableObjectsCoins(1100),
+        new CollectableObjectsCoins(1500),
+        new CollectableObjectsCoins(1700)
+    ];
     bottles = [
         new CollectableObjectsBottles(200),
         new CollectableObjectsBottles(500),
@@ -17,15 +26,6 @@ class World {
         new CollectableObjectsBottles(1000),
         new CollectableObjectsBottles(1400),
     ];
-    coins = 
-    [
-        new CollectableObjectsCoins(400),
-        new CollectableObjectsCoins(800),
-        new CollectableObjectsCoins(1100),
-        new CollectableObjectsCoins(1500),
-        new CollectableObjectsCoins(1700)
-    ];
-    throwableObjects = [];
     
 
     constructor(canvas, keyboard) {
@@ -45,6 +45,9 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
+            this.collectBottel();
+            this.collectCoin();
+            // this.hitEnemyWithBottle();
         }, 200);
     }
 
@@ -64,15 +67,30 @@ class World {
         });
     }
 
+    collectBottel() {
+        this.bottles.forEach((bottle) => {
+            if(this.character.isColliding(bottle)) {
+                this.throwableObjects.push(new ThrowableObjects);
+            }
+        });
+    }
+
+    collectCoin() {
+        this.coins.forEach((coin) => {
+            if(this.character.isColliding(coin)) {
+                console.log('You collect a coin');
+            }
+        });
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectToMap(this.level.backgroundObject);
-        
 
-        this.addObjectToMap(this.coins);
         this.addObjectToMap(this.bottles);
+        this.addObjectToMap(this.coins);
 
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.statusbarLive);
@@ -107,7 +125,7 @@ class World {
         }
 
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

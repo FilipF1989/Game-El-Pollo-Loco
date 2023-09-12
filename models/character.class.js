@@ -1,5 +1,12 @@
 class Character extends MovableObject {
 
+    offset = {
+        top:100,
+        bottom: -15,
+        left:-15,
+        right:-30
+    }
+
     height = 300;
     width = 130;
     speed = 10;
@@ -43,6 +50,7 @@ class Character extends MovableObject {
 
     world;
     walking_sound = new Audio('audio/running.mp3');
+    
 
     constructor() {
         super().loadImg('img/2_character_pepe/2_walk/W-21.png');
