@@ -1,5 +1,12 @@
 class Endboss extends MovableObject {
 
+    offset = {
+        y: 100,
+        x: 1,
+        width: -10,
+        height: -120
+    }
+
     boss_health = 100;
     firstContactWitchCharackter = false;
     height = 400;
@@ -65,8 +72,8 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_HURT);
-        this.x = 2500;
-        this.y = 60;
+        this.x = 3000;
+        this.y = 80;
         setTimeout(() => {
             this.animate();
         }, 70);
@@ -74,25 +81,27 @@ class Endboss extends MovableObject {
 
     animate() {
 
-        setInterval(() => {
+        setTimeout(() => {
+            setInterval(() => {
             
-            if (world.character.x < 1960) {
-                this.playAnimation(this.IMAGES_ALERT);
-            }
-
-            if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
-                this.firstContactWitchCharackter = true;
-
-                setInterval(() => {
-                    this.playAnimation(this.IMAGES_ATACKING);
-                }, 150);
-
-                setInterval(() => {
-                    this.moveLeft();
-                }, 10);
-            }
-
-        }, 150);
+                if (world.character.x < 1960) {
+                    this.playAnimation(this.IMAGES_ALERT);
+                }
+    
+                if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
+                    this.firstContactWitchCharackter = true;
+    
+                    setInterval(() => {
+                        this.playAnimation(this.IMAGES_ATACKING);
+                    }, 150);
+    
+                    setInterval(() => {
+                        this.moveLeft();
+                    }, 10);
+                }
+    
+            }, 150);
+        }, 100);
 
     }
 }

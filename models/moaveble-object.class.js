@@ -9,9 +9,9 @@ class MovableObject extends DrawableObject {
 
     offset = {
         top: 0,
+        right: 0,
         bottom: 0,
-        left: 0,
-        right: 0
+        left: 0
     };
 
     apllyGravity() {
@@ -44,15 +44,17 @@ class MovableObject extends DrawableObject {
 
 
     isColliding(mo) {
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-            this.y + this.height - this.offset.bottom  > mo.y + mo.offset.top &&
+        return (
+            this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
+        );
     }
 
 
     hit() {
-        this.energy -= 5;
+        this.energy -= 4;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -79,5 +81,13 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCash[path];
         this.currentImage++;
+    }
+
+    playDeadSequenz(enemy, index) {
+        if (!enemy.alive) {
+            this.world.level.enemies.splice(index, 1);
+            enemy.enemy_dead.play();
+        }
+
     }
 }

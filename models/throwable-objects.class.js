@@ -12,6 +12,8 @@ class ThrowableObjects extends MovableObject {
 
 
     throw() {
+        // this.world.bottles.splice(1, 1);
+
         this.speedY = 30;
         this.apllyGravity();
         setInterval(() => {

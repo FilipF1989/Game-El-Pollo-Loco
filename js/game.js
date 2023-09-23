@@ -1,6 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+charackter_jump = new Audio('audio/jump.mp3');
+
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -43,6 +45,7 @@ window.addEventListener('keyup', (e) => {
     }
     if(e.keyCode == 32) {
         keyboard.SPACE = false;
+        // this.charackter_jump.play();
     }
     if(e.keyCode == 68) {
         keyboard.D = false;

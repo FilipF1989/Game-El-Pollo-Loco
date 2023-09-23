@@ -21,8 +21,6 @@ class StatusbarBottles extends DrawableObject {
 
     }
 
-    bottleCounter = 0;
-
     setBottleCounter(bottleCounter) {
         this.bottleCounter = bottleCounter;
         let path = this.IMAGES_BOTTLES[this.countBottles()];

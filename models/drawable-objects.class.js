@@ -26,6 +26,7 @@ class DrawableObject {
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Chicks || this instanceof Endboss || this instanceof CollectableObjectsBottles || this instanceof CollectableObjectsCoins) {
             ctx.beginPath();
+            ctx.strokeStyle  = 'black';
             ctx.lineWidth = '5';
             ctx.strokeStyle = '10';
             ctx.rect(this.x, this.y, this.width, this.height);

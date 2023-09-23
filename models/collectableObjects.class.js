@@ -4,11 +4,12 @@ class CollectableObjectsCoins extends DrawableObject {
     height = 100;
 
     offset = {
-        top:30,
-        bottom:30,
-        left:-30,
-        right:-30
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20
     }
+
 
     IMAGE_COIN = [
         'img/8_coin/coin_1.png'
@@ -26,10 +27,10 @@ class CollectableObjectsCoins extends DrawableObject {
 class CollectableObjectsBottles extends DrawableObject {
 
     offset = {
-        top:10,
-        bottom: 5,
-        left:75,
-        right:75
+        top: 0,
+        bottom: 0,
+        left: 60,
+        right: 60
     }
 
     IMAGES_BOTTLES_ROTATE = [

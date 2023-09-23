@@ -21,8 +21,6 @@ class StatusbarCoins extends DrawableObject {
 
     }
 
-    coinCounter = 0;
-
     setCoinCounter(coinCounter) {
         this.coinCounter = coinCounter;
         let path = this.IMAGES_COINS[this.countCoins()];

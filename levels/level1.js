@@ -2,20 +2,27 @@
 
 const level1 = new Level(
     [
-        new Chicken(200),
-        new Chicken(500),
-        new Chicken(800),
-        new Chicken(1000),
-        new Chicken(1200),
-        new Chicks(300),
-        new Chicks(450),
+        new Chicken(600),
+        new Chicken(900),
+        new Chicken(1050),
+        new Chicken(1050),
+        new Chicken(1700),
         new Chicks(750),
-        new Chicks(900),
-        new Chicks(1250),
-        new Endboss(1450)
+        new Chicks(1200),
+        new Chicks(1350),
+        new Chicks(1400),
+        new Chicks(2000),
+        new Endboss()
     ],
     [
-        new Cloud()
+        new Cloud(300),
+        new Cloud(500),
+        new Cloud(1000),
+        new Cloud(1500),
+        new Cloud(2000),
+        new Cloud(2400),
+        new Cloud(2900),
+        new Cloud(3200)
     ]
     ,
     [
@@ -37,10 +44,16 @@ const level1 = new Level(
         new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 719 * 2),
         new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719 * 2),
         new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719 * 2),
+
         new BackgroundObject('img/5_background/layers/air.png', 719 * 3),
         new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 719 * 3),
         new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 719 * 3),
         new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 719 * 3),
+
+        new BackgroundObject('img/5_background/layers/air.png', 719 * 4),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 719 * 4),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719 * 4),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719 * 4),
     ],
     [
         new CollectableObjectsCoins(400),
@@ -50,11 +63,11 @@ const level1 = new Level(
         new CollectableObjectsCoins(1700)
     ],
     [
-        new CollectableObjectsBottles(200),
-        new CollectableObjectsBottles(500),
-        new CollectableObjectsBottles(700),
-        new CollectableObjectsBottles(1000),
+        new CollectableObjectsBottles(600),
+        new CollectableObjectsBottles(800),
+        new CollectableObjectsBottles(1050),
         new CollectableObjectsBottles(1400),
+        new CollectableObjectsBottles(1800)
     ]
 
 );
