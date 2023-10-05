@@ -11,5 +11,6 @@ class Level {
         this.collectableObjectsCoins = collectableObjectsCoins;
         this.collectableObjectsBottles = collectableObjectsBottles;
         this.throwableObjects = throwableObjects;
+
     }
 }

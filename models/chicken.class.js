@@ -1,14 +1,14 @@
 class Chicken extends MovableObject {
 
     offset = {
-        top: 0,
+        top: -10,
         right: 0,
         bottom: 0,
-        left: 0,
+        left: 0
     }
+    height = 100;
     width = 80;
     y = 350;
-    height = 100;
     dead = false;
     
 
@@ -31,7 +31,7 @@ class Chicken extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.x = x + Math.random() * 500;
         this.speed = 1.95 + Math.random() * 1.25;
-        this.animate();
+        // this.animate();
     }
 
 
@@ -50,15 +50,15 @@ class Chicken extends MovableObject {
 class Chicks extends MovableObject {
 
     offset = {
-        top: 0,
+        top: -30,
         right: 0,
         bottom: 0,
-        left: 0,
+        left: 0
     }
     
-    height = 80;
-    width = 80;
-    y = 370;
+    height = 50;
+    width = 50;
+    y = 400;
     dead = false;
 
     enemy_dead = new Audio('audio/chicken.mp3');
@@ -75,7 +75,7 @@ class Chicks extends MovableObject {
         this.loadImages(this.CHICKS_WALKING);
         this.x = x + Math.random() * 500;
         this.speed = 1.95 + Math.random() * 1.25;
-        this.animate();
+        // this.animate();
     }
 
     animate() {

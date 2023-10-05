@@ -1,10 +1,10 @@
 class Endboss extends MovableObject {
 
     offset = {
-        y: 100,
-        x: 1,
-        width: -10,
-        height: -120
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
     }
 
     boss_health = 100;
@@ -74,34 +74,38 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.x = 3000;
         this.y = 80;
-        setTimeout(() => {
-            this.animate();
-        }, 70);
+        // setTimeout(() => {
+        //     this.animate();
+        // }, 70);
     }
 
     animate() {
-
-        setTimeout(() => {
-            setInterval(() => {
-            
-                if (world.character.x < 1960) {
-                    this.playAnimation(this.IMAGES_ALERT);
-                }
-    
-                if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
-                    this.firstContactWitchCharackter = true;
-    
-                    setInterval(() => {
-                        this.playAnimation(this.IMAGES_ATACKING);
-                    }, 150);
-    
-                    setInterval(() => {
-                        this.moveLeft();
-                    }, 10);
-                }
-    
-            }, 150);
-        }, 100);
+        let canvas = document.getElementById('canvas');
+        if(canvas.style.display == 'block') {
+            setTimeout(() => {
+                setInterval(() => {
+                
+                    if (world.character.x < 1960 ) {
+                        this.playAnimation(this.IMAGES_ALERT);
+                    }
+        
+                    if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
+                        this.firstContactWitchCharackter = true;
+        
+                        setInterval(() => {
+                            this.playAnimation(this.IMAGES_ATACKING);
+                        }, 150);
+        
+                        setInterval(() => {
+                            this.moveLeft();
+                        }, 10);
+                    }
+        
+                }, 150);
+            }, 100);
+        }
+        
+       
 
     }
 }

@@ -1,18 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="/img/10_fav_icon/fav_icon.png">
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="style.css">
-    
+
 </head>
 
 <body onload="init()">
     <h1>El Pollo loco</h1>
+       <div id="fullscreen"> 
+        <div id="startScreen">
+            <div id="gameSettings">
+                <div class="iconBox screen" onclick="toggleFullScreen()">
+                    <img src="/img/11_icons/fullscreen.png" class="screenIcon" alt="">
+                    <span class="fullscreenBox">Fullscreen</span>
+    
+                </div>
+                <div class="iconBox gameSettingBox" id="playMusicIcon" onclick="onOffMusic()">
+                    <img src="/img/11_icons/sound_on.png" alt="" id="musicSrc">
+                    <span id="soundBox">Play game music</span>
+                </div>
+                <div class="iconBox" id="playGame" onclick="initLevel()">
+                    <img src="/img/11_icons/play_game.png" alt="">
+                    <span>Play game</span>
+                </div>
+            </div>
+            <div id="iconTaskBar">
+                <div class="iconBox">
+                    <img src="/img/11_icons/arrow_left.png" alt="">
+                    <span>Move left</span>
+                </div>
+                <div class="iconBox">
+                    <img src="/img/11_icons/arrow_right.png" alt="">
+                    <span>Move right</span>
+                </div>
+                <div class="iconBox">
+                    <img src="/img/11_icons/space.png" alt="">
+                    <span>Jump</span>
+                </div>
+                <div class="iconBox">
+                    <img src="/img/11_icons/d_button.png" alt=""="dImage">
+                    <span>Throw bottle</span>
+                </div>
+            </div>
+        </div> 
+    </div>
 
     <canvas id="canvas" width="720" height="480px"></canvas>
+
 
 
     <script src="models/drawable-objects.class.js"></script>
@@ -39,4 +78,5 @@
     <script src="/js/game.js"></script>
 
 </body>
+
 </html>
