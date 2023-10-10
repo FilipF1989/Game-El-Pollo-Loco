@@ -1,6 +1,9 @@
 
 class World {
     character = new Character();
+    chicken = new Chicken();
+    chicks = new Chicks();
+    endboss = new Endboss();
     level = level1;
     canvas;
     offset;
@@ -8,13 +11,16 @@ class World {
     keyboard;
     camera_x = 0;
     coinsCounter = 0;
+    throwableObjects = [];
+    bottles = [];
     statusbarLive = new StatusbarLive();
     statusbarCoins = new StatusbarCoins();
     statusbarBottles = new StatusbarBottles();
-    throwableObjects = [];
-    bottles = [];
     collect_coin_music = new Audio('audio/collect_coin.mp3');
     collect_bottle_music = new Audio('audio/collect_bottle.mp3');
+    enemy_dead = new Audio('audio/chicken.mp3');
+    bottle_hit = new Audio('audio/glass.mp3');
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -39,7 +45,7 @@ class World {
         }, 200);
         setInterval(() => {
             this.jumpOnEnemy();
-        }, 100);
+        }, 20);
     }
 
     checkThrowObjects() {
@@ -49,25 +55,49 @@ class World {
             this.bottles.shift();
             this.statusbarBottles.setBottleCounter(this.bottles.length);
             this.hitEnemyWithBottle();
-
         }
     }
 
 
     hitEnemyWithBottle() {
+        let boss = this.level.enemies.slice(-1)[0];
         this.level.enemies.forEach((enemy, index) => {
-            this.throwableObjects.forEach((bottle) => {
-                if (bottle.isColliding(enemy)) {
-                    console.log('Hallo');
+            this.throwableObjects.forEach((bottle, bottleIndex) => {
+                if (bottle.isColliding(enemy) && enemy !== boss) {
+                    enemy.hitEnemy();
+                    this.enemy_dead.play();
+                    this.throwableObjects.splice(bottleIndex, 1);
+                    if (enemy.energy < 1) {
+                        setTimeout(() => {
+                            this.level.enemies.splice(index, 1);
+                        }, 2000);
+                    }
+                }
+                if (bottle.isColliding(boss)) {
+                    this.enemy_dead.play();
+                    this.throwableObjects.splice(bottleIndex, 1);
+                    boss.hitEndboss();
                 }
             });
         });
     }
 
 
+
+
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !this.character.isAbouveGround()) {
+            if (this.character.isColliding(enemy) && !this.character.isAbouveGround() && enemy.energy > 0) {
+                this.character.hit();
+                this.statusbarLive.setProcentage(this.character.energy);
+            }
+        });
+    }
+
+
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy) && !this.character.isAbouveGround() && enemy.energy > 1) {
                 this.character.hit();
                 this.statusbarLive.setProcentage(this.character.energy);
             }
@@ -75,13 +105,23 @@ class World {
     }
 
     jumpOnEnemy() {
-        this.level.enemies.forEach((enemy, index) => {
-            if (this.character.isColliding(enemy) && this.character.isAbouveGround() && !enemy.dead) {
-                enemy.dead = true;
-                this.character.playDeadSequenz(enemy, index);
+        for (let index = this.level.enemies.length - 1; index >= 0; index--) {
+            const enemy = this.level.enemies[index];
+            if (this.character.isColliding(enemy) && this.character.isAbouveGround() && enemy.energy > 1) {
+                enemy.energy -= 20;
+                this.enemy_dead.play();
+                setTimeout(() => {
+                    for (let i = this.level.enemies.length - 1; i >= 0; i--) {
+                        if (this.level.enemies[i].energy < 1) {
+                            this.level.enemies.splice(i, 1);
+                        }
+                    }
+                }, 2000);
             }
-        });
+        }
     }
+
+
 
     collectBottel() {
         this.level.collectableObjectsBottles.forEach((bottle, index) => {

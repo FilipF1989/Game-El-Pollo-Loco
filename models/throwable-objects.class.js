@@ -1,5 +1,11 @@
 class ThrowableObjects extends MovableObject {
 
+    offset = {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    }
 
     constructor(x, y) {
         super().loadImg('img/6_salsa_bottle/salsa_bottle.png');
@@ -12,12 +18,10 @@ class ThrowableObjects extends MovableObject {
 
 
     throw() {
-        // this.world.bottles.splice(1, 1);
-
-        this.speedY = 30;
+        this.speedY = 10;
         this.apllyGravity();
         setInterval(() => {
-            this.x += 10;
+            this.x += 26;
         }, 25);
     }
 }

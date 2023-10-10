@@ -9,8 +9,7 @@ class Chicken extends MovableObject {
     height = 100;
     width = 80;
     y = 350;
-    dead = false;
-    
+
 
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -19,10 +18,9 @@ class Chicken extends MovableObject {
     ];
 
     IMAGES_DEAD = [
-        'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
+        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ]
 
-    enemy_dead = new Audio('audio/chicken.mp3');
 
 
     constructor(x) {
@@ -31,19 +29,19 @@ class Chicken extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.x = x + Math.random() * 500;
         this.speed = 1.95 + Math.random() * 1.25;
-        // this.animate();
+        this.energy = 20;
     }
 
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
-        }, 60);
-
-        setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
-        }, 150);
-
+            if (this.energy > 1) {
+                this.moveLeft();
+                this.playAnimation(this.IMAGES_WALKING);
+            } else {
+                this.playAnimation(this.IMAGES_DEAD);
+            }
+        }, 65);
     }
 }
 
@@ -55,14 +53,12 @@ class Chicks extends MovableObject {
         bottom: 0,
         left: 0
     }
-    
+
     height = 50;
     width = 50;
     y = 400;
-    dead = false;
 
-    enemy_dead = new Audio('audio/chicken.mp3');
-    
+
 
     CHICKS_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -70,22 +66,29 @@ class Chicks extends MovableObject {
         'img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
 
+    CHICKS_DEAD = [
+        'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
+    ]
+
     constructor(x) {
         super().loadImg('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.CHICKS_WALKING);
+        this.loadImages(this.CHICKS_DEAD);
         this.x = x + Math.random() * 500;
         this.speed = 1.95 + Math.random() * 1.25;
-        // this.animate();
+        this.energy = 20;
+        
     }
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
-        }, 60);
-
-        setInterval(() => {
-            this.playAnimation(this.CHICKS_WALKING);
-        }, 150);
-
+            if (this.energy > 1) {
+                this.moveLeft();
+                this.playAnimation(this.CHICKS_WALKING);
+            } else {
+                this.playAnimation(this.CHICKS_DEAD);
+                
+            }
+        }, 65);
     }
 }

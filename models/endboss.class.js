@@ -7,8 +7,8 @@ class Endboss extends MovableObject {
         left: 0,
     }
 
-    boss_health = 100;
     firstContactWitchCharackter = false;
+    bossKilled = false;
     height = 400;
     width = 270;
 
@@ -31,18 +31,6 @@ class Endboss extends MovableObject {
     ];
 
     IMAGES_ATACKING = [
-        'img/4_enemie_boss_chicken/1_walk/G1.png',
-        'img/4_enemie_boss_chicken/1_walk/G2.png',
-        'img/4_enemie_boss_chicken/1_walk/G3.png',
-        'img/4_enemie_boss_chicken/1_walk/G4.png',
-        'img/4_enemie_boss_chicken/2_alert/G5.png',
-        'img/4_enemie_boss_chicken/2_alert/G6.png',
-        'img/4_enemie_boss_chicken/2_alert/G7.png',
-        'img/4_enemie_boss_chicken/2_alert/G8.png',
-        'img/4_enemie_boss_chicken/2_alert/G9.png',
-        'img/4_enemie_boss_chicken/2_alert/G10.png',
-        'img/4_enemie_boss_chicken/2_alert/G11.png',
-        'img/4_enemie_boss_chicken/2_alert/G12.png',
         'img/4_enemie_boss_chicken/3_attack/G13.png',
         'img/4_enemie_boss_chicken/3_attack/G14.png',
         'img/4_enemie_boss_chicken/3_attack/G15.png',
@@ -72,40 +60,61 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_HURT);
+        this.energy = 100;
+        this.speed = 1;
         this.x = 3000;
         this.y = 80;
-        // setTimeout(() => {
-        //     this.animate();
-        // }, 70);
     }
+
+
+
+    // animate() {
+    //     let canvas = document.getElementById('canvas');
+    //     if (canvas.style.display == 'block') {
+    //         setTimeout(() => {
+    //             setInterval(() => {
+    //                 if (world.character.x < 1960) {
+    //                     this.playAnimation(this.IMAGES_ALERT);
+    //                 }
+    //                 if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
+    //                     this.firstContactWitchCharackter = true;
+    //                     this.playAnimationsEndboss();
+    //                 }
+    //             }, 150);
+    //         }, 100);
+    //     }
+    // }
+
+    // playAnimationsEndboss() {
+    //     setInterval(() => {
+
+    //         this.playAnimation[this.IMAGES_ATACKING];
+    //         this.moveLeft();
+
+
+    //     }, 100);
+    // }
 
     animate() {
         let canvas = document.getElementById('canvas');
-        if(canvas.style.display == 'block') {
+        if (canvas.style.display == 'block') {
             setTimeout(() => {
                 setInterval(() => {
-                
-                    if (world.character.x < 1960 ) {
+                    if (world.character.x < 1960) {
                         this.playAnimation(this.IMAGES_ALERT);
+                        this.playAnimation(this.IMAGES_ATACKING)
                     }
-        
                     if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
                         this.firstContactWitchCharackter = true;
-        
                         setInterval(() => {
                             this.playAnimation(this.IMAGES_ATACKING);
-                        }, 150);
-        
+                        }, 200);
                         setInterval(() => {
                             this.moveLeft();
                         }, 10);
                     }
-        
                 }, 150);
             }, 100);
         }
-        
-       
-
     }
 }

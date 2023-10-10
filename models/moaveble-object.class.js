@@ -7,6 +7,8 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
 
+
+
     offset = {
         top: 0,
         right: 0,
@@ -51,11 +53,12 @@ class MovableObject extends DrawableObject {
 
     }
 
+
     isJumpingOn(mo) {
         if (!this.isColliding(mo)) {
             return false;
         }
-        return  this.y + this.height - this.offset.bottom > mo.y + mo.offset.top;
+        return this.y + this.height - this.offset.bottom > mo.y + mo.offset.top;
     }
 
 
@@ -68,6 +71,15 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    hitEnemy() {
+        this.energy -= 20;
+        if (this.energy <= 0) {
+            this.energy = 0;
+            this.isDead();
+        }
+
+    }
+
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
         timePassed = timePassed / 1000;
@@ -77,6 +89,11 @@ class MovableObject extends DrawableObject {
     isDead() {
         return this.energy == 0;
     }
+
+    hitEndboss() {
+        this.energy -= 20;
+    }
+    
 
     jump() {
         this.speedY = 10;
@@ -89,11 +106,4 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
-    playDeadSequenz(enemy, index) {
-        if (!enemy.alive) {
-            this.world.level.enemies.splice(index, 1);
-            enemy.enemy_dead.play();
-        }
-
-    }
 }
