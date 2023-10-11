@@ -62,6 +62,23 @@ class MovableObject extends DrawableObject {
     }
 
 
+    
+
+    hitEnemy() {
+        this.energy -= 20;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHitOnEnemy = new Date().getTime();
+        }
+    }
+
+    enemyIsHurt() {
+        let timePassed = new Date().getTime() - this.lastHitOnEnemy;
+        timePassed = timePassed / 1000;
+        return timePassed < 1;
+    }
+
     hit() {
         this.energy -= 4;
         if (this.energy < 0) {
@@ -69,15 +86,6 @@ class MovableObject extends DrawableObject {
         } else {
             this.lastHit = new Date().getTime();
         }
-    }
-
-    hitEnemy() {
-        this.energy -= 20;
-        if (this.energy <= 0) {
-            this.energy = 0;
-            this.isDead();
-        }
-
     }
 
     isHurt() {

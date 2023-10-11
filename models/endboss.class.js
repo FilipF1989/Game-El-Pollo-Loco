@@ -8,7 +8,7 @@ class Endboss extends MovableObject {
     }
 
     firstContactWitchCharackter = false;
-    bossKilled = false;
+    stillAlive = true;
     height = 400;
     width = 270;
 
@@ -61,39 +61,11 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_HURT);
         this.energy = 100;
-        this.speed = 1;
+        this.speed = 8;
         this.x = 3000;
         this.y = 80;
     }
 
-
-
-    // animate() {
-    //     let canvas = document.getElementById('canvas');
-    //     if (canvas.style.display == 'block') {
-    //         setTimeout(() => {
-    //             setInterval(() => {
-    //                 if (world.character.x < 1960) {
-    //                     this.playAnimation(this.IMAGES_ALERT);
-    //                 }
-    //                 if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
-    //                     this.firstContactWitchCharackter = true;
-    //                     this.playAnimationsEndboss();
-    //                 }
-    //             }, 150);
-    //         }, 100);
-    //     }
-    // }
-
-    // playAnimationsEndboss() {
-    //     setInterval(() => {
-
-    //         this.playAnimation[this.IMAGES_ATACKING];
-    //         this.moveLeft();
-
-
-    //     }, 100);
-    // }
 
     animate() {
         let canvas = document.getElementById('canvas');
@@ -102,16 +74,20 @@ class Endboss extends MovableObject {
                 setInterval(() => {
                     if (world.character.x < 1960) {
                         this.playAnimation(this.IMAGES_ALERT);
-                        this.playAnimation(this.IMAGES_ATACKING)
                     }
                     if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
                         this.firstContactWitchCharackter = true;
                         setInterval(() => {
-                            this.playAnimation(this.IMAGES_ATACKING);
-                        }, 200);
-                        setInterval(() => {
+                            if (this.enemyIsHurt()) {
+                                this.playAnimation(this.IMAGES_HURT);
+                            } else if (this.isDead()) {
+                                this.playAnimation(this.IMAGES_DEAD);
+                                this.stillAlive = false;
+                            } else {
+                                this.playAnimation(this.IMAGES_ATACKING);
+                            }
                             this.moveLeft();
-                        }, 10);
+                        }, 150);
                     }
                 }, 150);
             }, 100);

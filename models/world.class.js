@@ -76,7 +76,7 @@ class World {
                 if (bottle.isColliding(boss)) {
                     this.enemy_dead.play();
                     this.throwableObjects.splice(bottleIndex, 1);
-                    boss.hitEndboss();
+                    boss.hitEnemy();
                 }
             });
         });
