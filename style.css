@@ -100,6 +100,42 @@ canvas {
     transition: transform 0.3s ease-in-out;
 }
 
+#endGameScreen {
+    width: 820px;
+    height: 480px;
+    position: relative;
+    background-image: url("img/5_background/first_half_background.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    align-items: center;
+}
+
+.gameEndScreen {
+    width: 100%;
+    height: 100%;
+}
+
+.newGameBtn {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 90px;
+    margin: 0 auto;
+    width: 200px;
+    height: 80px;
+    border-radius: 10px;
+    border-radius: 2px solid black;
+    background-color: gold;
+    font-family: cowboy_fonts, Arial, Helvetica, sans-serif;
+    font-size: 2rem;
+}
+
+
 .dImage {
     width: 30px;
     height: 30px;

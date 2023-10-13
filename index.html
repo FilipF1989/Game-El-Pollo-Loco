@@ -12,13 +12,13 @@
 
 <body onload="init()">
     <h1>El Pollo loco</h1>
-       <div id="fullscreen"> 
+    <div id="fullscreen">
         <div id="startScreen">
             <div id="gameSettings">
                 <div class="iconBox screen" onclick="toggleFullScreen()">
                     <img src="/img/11_icons/fullscreen.png" class="screenIcon" alt="">
                     <span class="fullscreenBox">Fullscreen</span>
-    
+
                 </div>
                 <div class="iconBox gameSettingBox" id="playMusicIcon" onclick="onOffMusic()">
                     <img src="/img/11_icons/sound_on.png" alt="" id="musicSrc">
@@ -47,7 +47,14 @@
                     <span>Throw bottle</span>
                 </div>
             </div>
-        </div> 
+        </div>
+        <div class="gameOver">
+            <div id="endGameScreen">
+                <img src="img/9_intro_outro_screens/game_over/game over!.png" class="gameEndScreen">
+                <button class="newGameBtn" onclick="newGame()">New Game</button>
+            </div>
+        </div>
+        
     </div>
 
     <canvas id="canvas" width="720" height="480px"></canvas>

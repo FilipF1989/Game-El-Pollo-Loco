@@ -55,7 +55,7 @@ class MovableObject extends DrawableObject {
 
 
     isJumpingOn(mo) {
-        if (!this.isColliding(mo)) {
+        if (this.isColliding(mo)) {
             return false;
         }
         return this.y + this.height - this.offset.bottom > mo.y + mo.offset.top;
