@@ -1,9 +1,14 @@
 
+
+
 class World {
     character = new Character();
     chicken = new Chicken();
     chicks = new Chicks();
     endboss = new Endboss();
+    statusbarLive = new StatusbarLive();
+    statusbarCoins = new StatusbarCoins();
+    statusbarBottles = new StatusbarBottles();
     level = level1;
     canvas;
     offset;
@@ -13,9 +18,6 @@ class World {
     coinsCounter = 0;
     throwableObjects = [];
     bottles = [];
-    statusbarLive = new StatusbarLive();
-    statusbarCoins = new StatusbarCoins();
-    statusbarBottles = new StatusbarBottles();
     collect_coin_music = new Audio('audio/collect_coin.mp3');
     collect_bottle_music = new Audio('audio/collect_bottle.mp3');
     enemy_dead = new Audio('audio/chicken.mp3');
@@ -41,11 +43,11 @@ class World {
             this.checkThrowObjects();
             this.collectBottel();
             this.collectCoin();
-            this.hitEnemyWithBottle();
         }, 200);
         setInterval(() => {
             this.jumpOnEnemy();
-        }, 20);
+            this.hitEnemyWithBottle();
+        }, 50);
     }
 
     checkThrowObjects() {
@@ -83,8 +85,6 @@ class World {
     }
 
 
-
-
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !this.character.isAbouveGround() && enemy.energy > 0) {
@@ -95,19 +95,10 @@ class World {
     }
 
 
-    checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !this.character.isAbouveGround() && enemy.energy > 1) {
-                this.character.hit();
-                this.statusbarLive.setProcentage(this.character.energy);
-            }
-        });
-    }
-
     jumpOnEnemy() {
         for (let index = this.level.enemies.length - 1; index >= 0; index--) {
             const enemy = this.level.enemies[index];
-            if (this.character.isColliding(enemy) && this.character.isAbouveGround() && enemy.energy > 1) {
+            if (this.character.isColliding(enemy) && enemy.energy > 1 && this.character.isAbouveGround() && this.character.speedY < -1) {
                 enemy.energy -= 20;
                 this.enemy_dead.play();
                 setTimeout(() => {

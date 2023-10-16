@@ -8,10 +8,7 @@ game_music = new Audio('audio/game_music.mp3');
 function toggleFullScreen() {
     const changeScreen = document.querySelector('.screenIcon');
     let fullscreenbox = document.querySelector('.fullscreenBox');
-    const fullscreenElement =
-        document.fullscreenElement ||
-        document.mozFullScreenElement ||
-        document.webkitFullscreenElement;
+    const fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
 
     if (!fullscreenElement) {
         if (document.documentElement.requestFullscreen) {
@@ -72,6 +69,10 @@ function initLevel() {
     });
 }
 
+function newGame() {
+    location.reload();
+}
+
 
 
 window.addEventListener('keydown', (e) => {
@@ -110,7 +111,7 @@ window.addEventListener('keyup', (e) => {
     }
     if (e.keyCode == 32) {
         keyboard.SPACE = false;
-        // this.charackter_jump.play();
+        this.charackter_jump.play();
     }
     if (e.keyCode == 68) {
         keyboard.D = false;

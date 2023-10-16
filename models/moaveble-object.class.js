@@ -50,19 +50,8 @@ class MovableObject extends DrawableObject {
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
-
     }
 
-
-    isJumpingOn(mo) {
-        if (this.isColliding(mo)) {
-            return false;
-        }
-        return this.y + this.height - this.offset.bottom > mo.y + mo.offset.top;
-    }
-
-
-    
 
     hitEnemy() {
         this.energy -= 20;
@@ -101,7 +90,7 @@ class MovableObject extends DrawableObject {
     hitEndboss() {
         this.energy -= 20;
     }
-    
+
 
     jump() {
         this.speedY = 10;
@@ -112,6 +101,29 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCash[path];
         this.currentImage++;
+    }
+
+    gameWin() {
+        let gameOverScreen = document.querySelector('.gameOver');
+        let canvas = document.getElementById('canvas');
+        this.playAnimation(this.IMAGES_DEAD);
+        setTimeout(() => {
+            canvas.style.display = 'none';
+            gameOverScreen.style.display = 'block';
+        }, 2000);
+    }
+
+    gameLost() {
+        let gameOverScreen = document.querySelector('.gameOver');
+        let canvas = document.getElementById('canvas');
+        let endGameScreen = document.querySelector('.lostOrWinScreen');
+
+        this.playAnimation(this.IMAGES_DEAD);
+        setTimeout(() => {
+            canvas.style.display = 'none';
+            gameOverScreen.style.display = 'block';
+            endGameScreen.src = 'img/9_intro_outro_screens/game_over/oh no you lost!.png';
+        }, 2000);
     }
 
 }

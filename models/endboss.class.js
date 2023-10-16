@@ -8,9 +8,9 @@ class Endboss extends MovableObject {
     }
 
     firstContactWitchCharackter = false;
-    stillAlive = true;
     height = 400;
     width = 270;
+    game_win = new Audio('audio/game_win_sound.mp3');
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -77,20 +77,23 @@ class Endboss extends MovableObject {
                     }
                     if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
                         this.firstContactWitchCharackter = true;
-                        setInterval(() => {
-                            if (this.enemyIsHurt()) {
-                                this.playAnimation(this.IMAGES_HURT);
-                            } else if (this.isDead()) {
-                                this.playAnimation(this.IMAGES_DEAD);
-                                this.stillAlive = false;
-                            } else {
-                                this.playAnimation(this.IMAGES_ATACKING);
-                            }
-                            this.moveLeft();
-                        }, 150);
+                        this.enemyAtackAnimation();
                     }
                 }, 150);
             }, 100);
         }
+    }
+
+    enemyAtackAnimation() {
+        setInterval(() => {
+            if (this.enemyIsHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+            } else if (this.isDead()) {
+                this.gameWin();
+            } else {
+                this.playAnimation(this.IMAGES_ATACKING);
+            }
+            this.moveLeft();
+        }, 150);
     }
 }
