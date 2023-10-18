@@ -22,6 +22,7 @@ class World {
     collect_bottle_music = new Audio('audio/collect_bottle.mp3');
     enemy_dead = new Audio('audio/chicken.mp3');
     bottle_hit = new Audio('audio/glass.mp3');
+    soundOn = false;
 
 
     constructor(canvas, keyboard) {
@@ -100,7 +101,9 @@ class World {
             const enemy = this.level.enemies[index];
             if (this.character.isColliding(enemy) && enemy.energy > 1 && this.character.isAbouveGround() && this.character.speedY < -1) {
                 enemy.energy -= 20;
+                if(!this.enemy_dead.muted) {
                 this.enemy_dead.play();
+                }
                 setTimeout(() => {
                     for (let i = this.level.enemies.length - 1; i >= 0; i--) {
                         if (this.level.enemies[i].energy < 1) {

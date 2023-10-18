@@ -88,12 +88,13 @@ class Endboss extends MovableObject {
         setInterval(() => {
             if (this.enemyIsHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+                this.moveLeft();
             } else if (this.isDead()) {
                 this.gameWin();
             } else {
                 this.playAnimation(this.IMAGES_ATACKING);
+                this.moveLeft();
             }
-            this.moveLeft();
         }, 150);
     }
 }

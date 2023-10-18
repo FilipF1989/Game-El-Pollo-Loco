@@ -15,7 +15,7 @@ class DrawableObject {
 
     draw(ctx) {
         try {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         } catch (e) {
             // console.warn('Console log', e);
             // console.log('Could not load imae', this.img.src);
@@ -26,7 +26,7 @@ class DrawableObject {
     drawFrame(ctx) {
         if (this instanceof ThrowableObjects || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObjects) {
             ctx.beginPath();
-            ctx.strokeStyle  = 'black';
+            ctx.strokeStyle = 'black';
             ctx.lineWidth = '5';
             ctx.strokeStyle = '10';
             ctx.rect(this.x, this.y, this.width, this.height);
@@ -52,7 +52,7 @@ class DrawableObject {
 }
 
 
-function onOffMusic() {
+function onOffMusic(world) {
     let musicIcon = document.getElementById('playMusicIcon');
     let musicSrc = document.getElementById('musicSrc');
     let soundBoxText = document.getElementById('soundBox');
@@ -61,6 +61,7 @@ function onOffMusic() {
         this.game_music.play();
         musicSrc.src = 'img/11_icons/sound_off.png';
         soundBoxText.innerHTML = 'Stop game music';
+        World.soundOn = true;
     } else if (musicSrc.src.includes('img/11_icons/sound_off.png')) {
         this.game_music.pause();
         musicSrc.src = 'img/11_icons/sound_on.png';
@@ -100,9 +101,15 @@ function toggleFullScreen() {
 
 function init() {
     let startScreen = document.getElementById('startScreen');
+    const isNewGame = localStorage.getItem('newGame');
     canvas = document.getElementById('canvas');
 
     world = new World(canvas, keyboard);
+
+    if (isNewGame === 'true') {
+        initLevel();
+        localStorage.removeItem('newGame');
+    }
 }
 
 function initLevel() {
@@ -117,5 +124,9 @@ function initLevel() {
 }
 
 function newGame() {
+    localStorage.setItem('newGame', 'true');
     location.reload();
 }
+
+
+
