@@ -1,3 +1,8 @@
+
+/**
+ * Represents the main character in the game.
+ * Extends the MovableObject class.
+ */
 class Character extends MovableObject {
 
     offset = {
@@ -12,7 +17,6 @@ class Character extends MovableObject {
     width = 130;
     speed = 10;
     y = 70;
-
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -51,8 +55,10 @@ class Character extends MovableObject {
     ]
 
     world;
-    
-    
+
+    /**
+     * Creates a new Character instance.
+     */
     constructor() {
         super().loadImg('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -71,22 +77,19 @@ class Character extends MovableObject {
                 this.moveRight();
                 this.otherDirection = false;
             }
-
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
             }
-
             if (this.world.keyboard.SPACE && !this.isAbouveGround()) {
                 this.jump();
             }
-
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
         setInterval(() => {
             if (this.isDead()) {
-                this.gameLost();
+                this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAbouveGround()) {
@@ -96,12 +99,11 @@ class Character extends MovableObject {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-
         }, 30);
-
     }
 
 
+    
     jump() {
         this.speedY = 30;
     }

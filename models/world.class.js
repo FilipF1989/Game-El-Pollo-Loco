@@ -1,6 +1,8 @@
 
 
 
+
+
 class World {
     character = new Character();
     chicken = new Chicken();
@@ -9,6 +11,8 @@ class World {
     statusbarLive = new StatusbarLive();
     statusbarCoins = new StatusbarCoins();
     statusbarBottles = new StatusbarBottles();
+    audios = new Audios();
+    soundOn = false;
     level = level1;
     canvas;
     offset;
@@ -18,11 +22,7 @@ class World {
     coinsCounter = 0;
     throwableObjects = [];
     bottles = [];
-    collect_coin_music = new Audio('audio/collect_coin.mp3');
-    collect_bottle_music = new Audio('audio/collect_bottle.mp3');
-    enemy_dead = new Audio('audio/chicken.mp3');
-    bottle_hit = new Audio('audio/glass.mp3');
-    soundOn = false;
+
 
 
     constructor(canvas, keyboard) {
@@ -51,6 +51,64 @@ class World {
         }, 50);
     }
 
+
+     /**
+     * Toggles in-game music on or off.
+     */
+    onOffMusic() {
+        let musicIcon = document.getElementById('playMusicIcon');
+        let musicSrc = document.getElementById('musicSrc');
+        let soundBoxText = document.getElementById('soundBox');
+
+        if (musicSrc.src.includes('img/11_icons/sound_on.png')) {
+            this.soundOn = true;
+            this.audios.gameMusic.play();
+            musicSrc.src = 'img/11_icons/sound_off.png';
+            soundBoxText.innerHTML = 'Stop game music <br> Press M';
+        } else if (musicSrc.src.includes('img/11_icons/sound_off.png')) {
+            this.soundOn = false;
+            this.audios.gameMusic.pause();
+            musicSrc.src = 'img/11_icons/sound_on.png';
+            soundBoxText.innerHTML = 'Play game music <br> Press M';
+        }
+    }
+
+
+     /**
+     * Toggles full-screen mode.
+     */
+    toggleFullScreen() {
+        const changeScreen = document.querySelector('.screenIcon');
+        let fullscreenbox = document.querySelector('.fullscreenBox');
+        const fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+
+        if (!fullscreenElement) {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullScreen) {
+                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+            fullscreenbox.innerHTML = 'Minimize <br> Press F';
+            changeScreen.src = 'img/11_icons/minimaze_screen.png'; 
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            fullscreenbox.innerHTML = 'Fullscreen <br> Press F';
+            changeScreen.src = 'img/11_icons/fullscreen.png'; 
+        }
+    }
+
+
+    /**
+     * Checks if the character can throw objects and throws them.
+     */
     checkThrowObjects() {
         if (this.keyboard.D && this.bottles.length > 0) {
             let bottle = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
@@ -62,30 +120,50 @@ class World {
     }
 
 
+    /**
+     * Checks if the character hits enemies with thrown objects.
+     */
     hitEnemyWithBottle() {
         let boss = this.level.enemies.slice(-1)[0];
         this.level.enemies.forEach((enemy, index) => {
             this.throwableObjects.forEach((bottle, bottleIndex) => {
                 if (bottle.isColliding(enemy) && enemy !== boss) {
-                    enemy.hitEnemy();
-                    this.enemy_dead.play();
-                    this.throwableObjects.splice(bottleIndex, 1);
-                    if (enemy.energy < 1) {
-                        setTimeout(() => {
-                            this.level.enemies.splice(index, 1);
-                        }, 2000);
-                    }
+                    hitChickenWithBottle(enemy,bottleIndex,index);
                 }
                 if (bottle.isColliding(boss)) {
-                    this.enemy_dead.play();
-                    this.throwableObjects.splice(bottleIndex, 1);
-                    boss.hitEnemy();
+                    hitBossWithBottle(boss);
                 }
             });
         });
     }
 
+    hitChickenWithBottle(enemy,bottleIndex,index) {
+        if (this.soundOn) {
+            this.audios.enemyDead.play();
+            this.audios.bottleHit.play();
+        }
+        enemy.hitEnemy();
+        this.throwableObjects.splice(bottleIndex, 1);
+        if (enemy.energy < 1) {
+            setTimeout(() => {
+                this.level.enemies.splice(index, 1);
+            }, 2000);
+        }
+    }
 
+    hitBossWithBottle(boss) {
+        if (this.soundOn) {
+            this.audios.bossHit.play();
+            this.audios.bossHit.play();
+        }
+        this.throwableObjects.splice(bottleIndex, 1);
+        boss.hitEnemy();
+    }
+
+
+    /**
+     * Checks collisions between character and enemies.
+     */
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !this.character.isAbouveGround() && enemy.energy > 0) {
@@ -96,13 +174,16 @@ class World {
     }
 
 
+    /**
+     * Checks if the character jumps on enemies.
+     */
     jumpOnEnemy() {
         for (let index = this.level.enemies.length - 1; index >= 0; index--) {
             const enemy = this.level.enemies[index];
-            if (this.character.isColliding(enemy) && enemy.energy > 1 && this.character.isAbouveGround() && this.character.speedY < -1) {
+            if (this.character.isColliding(enemy) && this.character.isAbouveGround() && this.character.speedY < -1) {
                 enemy.energy -= 20;
-                if(!this.enemy_dead.muted) {
-                this.enemy_dead.play();
+                if (this.soundOn) {
+                    this.audios.enemyDead.play(); 
                 }
                 setTimeout(() => {
                     for (let i = this.level.enemies.length - 1; i >= 0; i--) {
@@ -116,30 +197,43 @@ class World {
     }
 
 
-
+    /**
+     * Collects bottles.
+     */
     collectBottel() {
         this.level.collectableObjectsBottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
-                // Entferne die aktuell eingesammelte Flasche aus dem Array
                 this.level.collectableObjectsBottles.splice(index, 1);
                 this.statusbarBottles.setBottleCounter(this.bottles.length + 1);
                 this.bottles.push(new ThrowableObjects());
-                this.collect_bottle_music.play();
+                if(this.soundOn) {
+                this.audios.collectBottleMusic.play();
+                }
             }
         });
     }
 
+
+    /**
+     * Collects coins.
+     */
     collectCoin() {
         this.level.collectableObjectsCoins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
                 this.coinsCounter++;
                 this.level.collectableObjectsCoins.splice(index, 1);
                 this.statusbarCoins.setCoinCounter(this.coinsCounter);
-                this.collect_coin_music.play();
+                if(this.soundOn) {
+                this.audios.collectCoinMusic.play();
+                }
             }
         });
     }
 
+
+     /**
+     * Draws the game world on the canvas.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -170,12 +264,22 @@ class World {
 
     }
 
+
+    /**
+     * Adds objects to the map.
+     * @param {DrawableObject[]} objects - A list of drawable objects.
+     */
     addObjectToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         });
     }
 
+
+    /**
+     * Adds a drawable object to the map and flips it if it's facing the opposite direction.
+     * @param {DrawableObject} mo - The drawable object.
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -189,6 +293,11 @@ class World {
         }
     }
 
+
+    /**
+     * Flips a drawable object.
+     * @param {DrawableObject} mo - The drawable object to be flipped.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -196,6 +305,11 @@ class World {
         mo.x = mo.x * -1;
     }
 
+
+     /**
+     * Restores a flipped drawable object.
+     * @param {DrawableObject} mo - The drawable object to be restored.
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();

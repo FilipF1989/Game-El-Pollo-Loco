@@ -6,6 +6,8 @@ class DrawableObject {
     y = 250;
     width = 150;
     height = 100;
+    musicOn = false;
+
 
 
     loadImg(path) {
@@ -22,17 +24,18 @@ class DrawableObject {
         }
     }
 
-
-    drawFrame(ctx) {
-        if (this instanceof ThrowableObjects || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObjects) {
-            ctx.beginPath();
-            ctx.strokeStyle = 'black';
-            ctx.lineWidth = '5';
-            ctx.strokeStyle = '10';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
+    /**
+    * Apply gravity to the object, making it fall if not on the ground.
+    */
+    apllyGravity() {
+        setInterval(() => {
+            if (this.isAbouveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.accelerataion;
+            }
+        }, 1000 / 40);
     }
+
 
     loadImages(arr) {
         arr.forEach((path) => {
@@ -49,58 +52,29 @@ class DrawableObject {
         this.currentImage++;
     }
 
-}
-
-
-function onOffMusic(world) {
-    let musicIcon = document.getElementById('playMusicIcon');
-    let musicSrc = document.getElementById('musicSrc');
-    let soundBoxText = document.getElementById('soundBox');
-
-    if (musicSrc.src.includes('img/11_icons/sound_on.png')) {
-        this.game_music.play();
-        musicSrc.src = 'img/11_icons/sound_off.png';
-        soundBoxText.innerHTML = 'Stop game music';
-        World.soundOn = true;
-    } else if (musicSrc.src.includes('img/11_icons/sound_off.png')) {
-        this.game_music.pause();
-        musicSrc.src = 'img/11_icons/sound_on.png';
-        soundBoxText.innerHTML = 'Play game music';
+    playMuteMusic() {
+        if (!this.musicOn) {
+            this.musicOn === true;
+        } else {
+            this.musicOn === false;
+        }
     }
 }
 
-function toggleFullScreen() {
-    const changeScreen = document.querySelector('.screenIcon');
-    let fullscreenbox = document.querySelector('.fullscreenBox');
-    const fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
-
-    if (!fullscreenElement) {
-        if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen();
-        } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullScreen) {
-            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-        }
-        fullscreenbox.innerHTML = 'Minimize';
-        changeScreen.src = 'img/11_icons/minimaze_screen.png'; // Setze das Bild außerhalb des Vollbildmodus.
-    } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        }
-        fullscreenbox.innerHTML = 'Fullscreen';
-        changeScreen.src = 'img/11_icons/fullscreen.png'; // Setze das Bild im Vollbildmodus.
-    }
+class Audios extends DrawableObject {
+    charackter_jump = new Audio('audio/jump.mp3');
+    collectCoinMusic = new Audio('audio/collect_coin.mp3');
+    collectBottleMusic = new Audio('audio/collect_bottle.mp3');
+    enemyDead = new Audio('audio/chicken.mp3');
+    bottleHit = new Audio('audio/glass.mp3');
+    gameMusic = new Audio('audio/game_music.mp3');
+    bossHit = new Audio('audio/boss_hit.mp3');
 }
 
 
 
 function init() {
-    let startScreen = document.getElementById('startScreen');
+    let startScreen = document.querySelector('.d-none');
     const isNewGame = localStorage.getItem('newGame');
     canvas = document.getElementById('canvas');
 
@@ -109,12 +83,16 @@ function init() {
     if (isNewGame === 'true') {
         initLevel();
         localStorage.removeItem('newGame');
+    } else {
+        startScreen.style.display = 'block';
     }
 }
 
 function initLevel() {
     let startScreen = document.getElementById('startScreen');
     canvas = document.getElementById('canvas');
+    startScreen.classList.remove('.d-none');
+
 
     startScreen.style.display = 'none';
     canvas.style.display = 'block';
@@ -128,5 +106,8 @@ function newGame() {
     location.reload();
 }
 
+function goToStartScreen() {
+    location.reload();
+}
 
 

@@ -1,3 +1,7 @@
+/**
+ * Represents a collectible coin in the game.
+ * Extends the DrawableObject class.
+ */
 class CollectableObjectsCoins extends DrawableObject {
 
     width = 100;
@@ -15,6 +19,11 @@ class CollectableObjectsCoins extends DrawableObject {
         'img/8_coin/coin_1.png'
     ];
 
+
+    /**
+     * Creates a new CollectableObjectsCoins instance.
+     * @param {number} x - The x-coordinate of the coin's position.
+     */
     constructor(x) {
         super().loadImg('img/8_coin/coin_1.png');
         this.loadImages(this.IMAGE_COIN);
@@ -24,6 +33,10 @@ class CollectableObjectsCoins extends DrawableObject {
 }
 
 
+/**
+ * Represents a collectible bottle in the game.
+ * Extends the DrawableObject class.
+ */
 class CollectableObjectsBottles extends DrawableObject {
 
     offset = {
@@ -38,6 +51,11 @@ class CollectableObjectsBottles extends DrawableObject {
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ];
 
+
+    /**
+     * Creates a new CollectableObjectsBottles instance.
+     * @param {number} x - The x-coordinate of the bottle's position.
+     */
     constructor(x) {
         super().loadImg('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_BOTTLES_ROTATE);
@@ -47,6 +65,10 @@ class CollectableObjectsBottles extends DrawableObject {
         this.animate();
     }
 
+
+    /**
+     * Animate the bottle's rotation.
+     */
     animate() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLES_ROTATE);

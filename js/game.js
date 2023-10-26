@@ -24,6 +24,12 @@ window.addEventListener('keydown', (e) => {
     if (e.keyCode == 68) {
         keyboard.D = true;
     }
+    if (e.keyCode == 77) {
+        world.onOffMusic();
+    }
+    if (e.keyCode == 70) {
+        world.toggleFullScreen();
+    }
 });
 
 window.addEventListener('keyup', (e) => {
@@ -41,10 +47,16 @@ window.addEventListener('keyup', (e) => {
     }
     if (e.keyCode == 32) {
         keyboard.SPACE = false;
-        this.charackter_jump.play();
+        if (world.soundOn) {
+            world.audios.charackter_jump.play();
+        }
+
     }
     if (e.keyCode == 68) {
         keyboard.D = false;
     }
 
 });
+
+
+

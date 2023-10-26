@@ -1,16 +1,19 @@
+/**
+ * Represents the end boss in the game.
+ * Extends the MovableObject class.
+ */
 class Endboss extends MovableObject {
-
     offset = {
         top: 0,
         right: 0,
         bottom: 0,
         left: 0,
-    }
+    };
 
-    firstContactWitchCharackter = false;
-    height = 400;
-    width = 270;
-    game_win = new Audio('audio/game_win_sound.mp3');
+    firstContactWitchCharackter = false; // Flag to track the first contact with the character.
+    height = 400; // Height of the end boss.
+    width = 270; // Width of the end boss.
+    game_win = new Audio('audio/game_win_sound.mp3'); // Audio for winning the game.
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -53,20 +56,25 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    /**
+     * Creates a new Endboss instance.
+     */
     constructor() {
         super().loadImg(this.IMAGES_ALERT[0]);
-        this.loadImages(this.IMAGES_ALERT);
-        this.loadImages(this.IMAGES_ATACKING);
-        this.loadImages(this.IMAGES_DEAD);
-        this.loadImages(this.IMAGES_WALKING);
-        this.loadImages(this.IMAGES_HURT);
-        this.energy = 100;
-        this.speed = 8;
-        this.x = 3000;
-        this.y = 80;
+        this.loadImages(this.IMAGES_ALERT); // Load alert animation images.
+        this.loadImages(this.IMAGES_ATACKING); // Load attacking animation images.
+        this.loadImages(this.IMAGES_DEAD); // Load dead animation images.
+        this.loadImages(this.IMAGES_WALKING); // Load walking animation images.
+        this.loadImages(this.IMAGES_HURT); // Load hurt animation images.
+        this.energy = 100; // Initial energy of the end boss.
+        this.speed = 8; // Speed of the end boss.
+        this.x = 3000; // Initial x position of the end boss.
+        this.y = 80; // Initial y position of the end boss.
     }
 
-
+    /**
+     * Animate the end boss's behavior.
+     */
     animate() {
         let canvas = document.getElementById('canvas');
         if (canvas.style.display == 'block') {
@@ -84,6 +92,9 @@ class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Animate the end boss's attack behavior.
+     */
     enemyAtackAnimation() {
         setInterval(() => {
             if (this.enemyIsHurt()) {
