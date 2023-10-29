@@ -22,7 +22,7 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ]
 
-
+    enemyDiesSound = new Audio('audio/chicken.mp3');
 
     constructor(x) {
         super().loadImg('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
@@ -59,6 +59,7 @@ class Chicks extends MovableObject {
     width = 50;
     y = 400;
 
+    enemyDiesSound = new Audio('audio/chicks_sound.mp3');
 
 
     CHICKS_WALKING = [

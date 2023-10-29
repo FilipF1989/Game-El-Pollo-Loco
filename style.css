@@ -19,7 +19,7 @@ body {
 
 h1 {
     font-size: 60px;
-    margin-top: 5%;
+    margin-top: 8%;
 }
 
 #gameConainer {
@@ -108,8 +108,11 @@ canvas {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
     transition: transform 0.3s ease-in-out;
+}
+
+.cp {
+    cursor: pointer;
 }
 
 .gameOver {
@@ -138,7 +141,7 @@ canvas {
 
 
 
-.newGameBtn , .goToStartScreen{
+.newGameBtn, .goToStartScreen {
     position: absolute;
     left: 0;
     right: 0;
@@ -148,11 +151,11 @@ canvas {
     height: 60px;
     border-radius: 10px;
     border-radius: 2px solid black;
-    background-color:gold;
+    background-color: gold;
     font-family: cowboy_fonts, Arial, Helvetica, sans-serif;
     font-size: 2rem;
     cursor: pointer;
-    transition: transform .3s ease-in-out,background-color 0.3s ease-in-out;
+    transition: transform .3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 .goToStartScreen {
@@ -165,16 +168,16 @@ canvas {
     height: 60px;
     border-radius: 10px;
     border-radius: 2px solid black;
-    background-color:gold;
+    background-color: gold;
     font-family: cowboy_fonts, Arial, Helvetica, sans-serif;
     font-size: 2rem;
     cursor: pointer;
-    transition: transform .3s ease-in-out,background-color 0.3s ease-in-out;
+    transition: transform .3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 .newGameBtn:hover {
     transform: scale(1.1);
-    background-color:  rgb(232, 200, 19);
+    background-color: rgb(232, 200, 19);
 }
 
 
@@ -205,4 +208,69 @@ canvas {
 
 #iconTaskBar :hover img {
     transform: scale(1);
+}
+
+#canvasContainer {
+    position: relative;
+}
+
+.moveContainer {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.moveContainer button {
+    margin-left: 20px;
+    background-color: gold;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+
+.moveContainer img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: gold;
+}
+
+.canvasBox {
+    position: absolute;
+    top: 90%;
+    width: 100%;
+    height: 45px;
+    /* background-color: black; */
+}
+#mobileScrenn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: gold;
+    z-index: 5;
+}
+
+h2 {
+    border: 2px solid black;
+    padding: 2rem;
+    font-size: 2rem;
+    max-width: 80%;
+    border-style: dashed;
+    border-radius: 20px;
+    text-wrap: balance;
+}
+
+
+
+@media only screen and (min-width:850px) {
+
+    #mobileScrenn {
+        display: none;
+    }
 }

@@ -18,6 +18,7 @@ class World {
     offset;
     ctx;
     keyboard;
+    document;
     camera_x = 0;
     coinsCounter = 0;
     throwableObjects = [];
@@ -26,6 +27,7 @@ class World {
 
 
     constructor(canvas, keyboard) {
+        this.document = document;
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
@@ -39,6 +41,8 @@ class World {
     }
 
     run() {
+        this.onOffFullscreen();
+        this.onOffMusicWithClick();
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
@@ -49,16 +53,33 @@ class World {
             this.jumpOnEnemy();
             this.hitEnemyWithBottle();
         }, 50);
+
     }
 
 
-     /**
-     * Toggles in-game music on or off.
-     */
+
+    onOffFullscreen() {
+        this.document.querySelector('.screen').addEventListener('click', () => {
+            this.toggleFullScreen();
+        })
+    }
+
+    onOffMusicWithClick() {
+        this.document.getElementById('playMusicIcon').addEventListener('click', () => {
+            this.onOffMusic();
+        })
+    }
+
+
+
+    /**
+    * Toggles in-game music on or off.
+    */
     onOffMusic() {
         let musicIcon = document.getElementById('playMusicIcon');
         let musicSrc = document.getElementById('musicSrc');
         let soundBoxText = document.getElementById('soundBox');
+
 
         if (musicSrc.src.includes('img/11_icons/sound_on.png')) {
             this.soundOn = true;
@@ -74,9 +95,12 @@ class World {
     }
 
 
-     /**
-     * Toggles full-screen mode.
-     */
+
+
+
+    /**
+    * Toggles full-screen mode.
+    */
     toggleFullScreen() {
         const changeScreen = document.querySelector('.screenIcon');
         let fullscreenbox = document.querySelector('.fullscreenBox');
@@ -91,7 +115,7 @@ class World {
                 document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
             }
             fullscreenbox.innerHTML = 'Minimize <br> Press F';
-            changeScreen.src = 'img/11_icons/minimaze_screen.png'; 
+            changeScreen.src = 'img/11_icons/minimaze_screen.png';
         } else {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
@@ -101,7 +125,7 @@ class World {
                 document.webkitExitFullscreen();
             }
             fullscreenbox.innerHTML = 'Fullscreen <br> Press F';
-            changeScreen.src = 'img/11_icons/fullscreen.png'; 
+            changeScreen.src = 'img/11_icons/fullscreen.png';
         }
     }
 
@@ -125,24 +149,26 @@ class World {
      */
     hitEnemyWithBottle() {
         let boss = this.level.enemies.slice(-1)[0];
+
         this.level.enemies.forEach((enemy, index) => {
             this.throwableObjects.forEach((bottle, bottleIndex) => {
                 if (bottle.isColliding(enemy) && enemy !== boss) {
-                    hitChickenWithBottle(enemy,bottleIndex,index);
+                    bottle.bottleSplash();
+                    this.hitChickenWithBottle(enemy, bottleIndex, index);
                 }
                 if (bottle.isColliding(boss)) {
-                    hitBossWithBottle(boss);
+                    this.hitBossWithBottle(boss, bottleIndex);
                 }
             });
         });
     }
 
-    hitChickenWithBottle(enemy,bottleIndex,index) {
-        if (this.soundOn) {
-            this.audios.enemyDead.play();
-            this.audios.bottleHit.play();
-        }
+    hitChickenWithBottle(enemy, bottleIndex, index) {
         enemy.hitEnemy();
+        if (this.soundOn) {
+            this.audios.bottleHit.play();
+            enemy.enemyDiesSound.play();
+        }
         this.throwableObjects.splice(bottleIndex, 1);
         if (enemy.energy < 1) {
             setTimeout(() => {
@@ -151,7 +177,7 @@ class World {
         }
     }
 
-    hitBossWithBottle(boss) {
+    hitBossWithBottle(boss, bottleIndex) {
         if (this.soundOn) {
             this.audios.bossHit.play();
             this.audios.bossHit.play();
@@ -182,8 +208,9 @@ class World {
             const enemy = this.level.enemies[index];
             if (this.character.isColliding(enemy) && this.character.isAbouveGround() && this.character.speedY < -1) {
                 enemy.energy -= 20;
+
                 if (this.soundOn) {
-                    this.audios.enemyDead.play(); 
+                    enemy.enemyDiesSound.play();
                 }
                 setTimeout(() => {
                     for (let i = this.level.enemies.length - 1; i >= 0; i--) {
@@ -206,8 +233,8 @@ class World {
                 this.level.collectableObjectsBottles.splice(index, 1);
                 this.statusbarBottles.setBottleCounter(this.bottles.length + 1);
                 this.bottles.push(new ThrowableObjects());
-                if(this.soundOn) {
-                this.audios.collectBottleMusic.play();
+                if (this.soundOn) {
+                    this.audios.collectBottleMusic.play();
                 }
             }
         });
@@ -223,17 +250,17 @@ class World {
                 this.coinsCounter++;
                 this.level.collectableObjectsCoins.splice(index, 1);
                 this.statusbarCoins.setCoinCounter(this.coinsCounter);
-                if(this.soundOn) {
-                this.audios.collectCoinMusic.play();
+                if (this.soundOn) {
+                    this.audios.collectCoinMusic.play();
                 }
             }
         });
     }
 
 
-     /**
-     * Draws the game world on the canvas.
-     */
+    /**
+    * Draws the game world on the canvas.
+    */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -306,10 +333,10 @@ class World {
     }
 
 
-     /**
-     * Restores a flipped drawable object.
-     * @param {DrawableObject} mo - The drawable object to be restored.
-     */
+    /**
+    * Restores a flipped drawable object.
+    * @param {DrawableObject} mo - The drawable object to be restored.
+    */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();

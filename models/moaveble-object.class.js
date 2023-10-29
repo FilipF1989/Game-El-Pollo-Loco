@@ -39,6 +39,9 @@ class MovableObject extends DrawableObject {
      */
     lastHit = 0;
 
+
+    isIdle = false;
+
     /**
      * Defines the offset properties for collision detection.
      * @type {{top: number, right: number, bottom: number, left: number}}
@@ -75,7 +78,14 @@ class MovableObject extends DrawableObject {
         } else {
             return this.y < 150;
         }
+    }
 
+     /**
+     * Make the object jump.
+     */
+     jump() {
+        this.speedY = 10;
+        this.onAction();   
     }
 
 
@@ -84,6 +94,7 @@ class MovableObject extends DrawableObject {
     */
     moveRight() {
         this.x += this.speed;
+        this.onAction();
     }
 
 
@@ -92,7 +103,25 @@ class MovableObject extends DrawableObject {
   */
     moveLeft() {
         this.x -= this.speed;
+        this.onAction();
     }
+
+    resetIsIdleTimer() {
+        clearTimeout(this.idleTimer); // Timer zurücksetzen, falls er bereits aktiv ist
+        this.idleTimer = setTimeout(() => {
+            this.isIdle = true;
+        }, 3000); // 3000 Millisekunden (3 Sekunden)
+    }
+
+    isIdleState() {
+        return this.isIdle;
+    }
+
+    onAction() {
+        this.isIdle = false; // Setze isIdle auf false
+        this.resetIsIdleTimer(); // Starte den Timer erneut
+    }
+
 
 
     /**
@@ -168,12 +197,7 @@ class MovableObject extends DrawableObject {
         this.energy -= 20;
     }
 
-    /**
-     * Make the object jump.
-     */
-    jump() {
-        this.speedY = 10;
-    }
+   
 
     /**
    * Play an animation for the object.
@@ -184,6 +208,10 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCash[path];
         this.currentImage++;
+    }
+
+    bottleSplash() {
+        return  this.loadImages(this.SALSA_BOTTLE_SPLASH);
     }
 
     /**

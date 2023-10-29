@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 
 <head>
     <meta charset="UTF-8">
@@ -16,34 +16,34 @@
         <div class="d-none">
             <div id="startScreen">
                 <div id="gameSettings">
-                    <div class="iconBox screen" onclick="toggleFullScreen()">
+                    <div class="iconBox screen cp">
                         <img src="/img/11_icons/fullscreen.png" class="screenIcon" alt="">
                         <span class="fullscreenBox">Fullscreen <br> Press F</span>
-    
+
                     </div>
-                    <div class="iconBox gameSettingBox" id="playMusicIcon">
+                    <div class="iconBox gameSettingBox cp" id="playMusicIcon">
                         <img src="/img/11_icons/sound_on.png" alt="" id="musicSrc">
                         <span id="soundBox">Play game music <br> Press M</span>
                     </div>
-                    <div class="iconBox" id="playGame" onclick="initLevel()">
+                    <div class="iconBox cp" id="playGame" onclick="initLevel()">
                         <img src="/img/11_icons/play_game.png" alt="">
                         <span>Play game</span>
                     </div>
                 </div>
                 <div id="iconTaskBar">
-                    <div class="iconBox">
+                    <div class="iconBox ">
                         <img src="/img/11_icons/arrow_left.png" alt="">
                         <span>Move left</span>
                     </div>
-                    <div class="iconBox">
+                    <div class="iconBox ">
                         <img src="/img/11_icons/arrow_right.png" alt="">
                         <span>Move right</span>
                     </div>
-                    <div class="iconBox">
+                    <div class="iconBox ">
                         <img src="/img/11_icons/space.png" alt="">
                         <span>Jump</span>
                     </div>
-                    <div class="iconBox">
+                    <div class="iconBox ">
                         <img src="/img/11_icons/d_button.png" alt=""="dImage">
                         <span>Throw bottle</span>
                     </div>
@@ -57,12 +57,21 @@
                 <button class="newGameBtn" onclick="newGame()">New Game</button>
             </div>
         </div>
-        
+
     </div>
-   
+    <div id="mobileScrenn">
+        <h2>This game is not for devices with small Displays</h2>
+    </div>
 
-    <canvas id="canvas" width="720" height="480px"></canvas>
-
+    <div id="canvasContainer">
+        <canvas id="canvas" width="720" height="480px"></canvas>
+        <div class="canvasBox">
+            <div class="moveContainer">
+                <button><img src="/img/11_icons/arrow_left.png" alt=""></button>
+                <button><img src="/img/11_icons/arrow_right.png" alt=""></button>
+            </div>
+        </div>
+    </div>
 
 
     <script src="models/drawable-objects.class.js"></script>

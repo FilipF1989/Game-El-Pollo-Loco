@@ -69,6 +69,7 @@ class Audios extends DrawableObject {
     bottleHit = new Audio('audio/glass.mp3');
     gameMusic = new Audio('audio/game_music.mp3');
     bossHit = new Audio('audio/boss_hit.mp3');
+    chicksHit = new Audio('audio/chicks_sound.mp3');
 }
 
 
