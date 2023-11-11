@@ -80,12 +80,12 @@ class MovableObject extends DrawableObject {
         }
     }
 
-     /**
-     * Make the object jump.
-     */
-     jump() {
+    /**
+    * Make the object jump.
+    */
+    jump() {
         this.speedY = 10;
-        this.onAction();   
+        this.onAction();
     }
 
 
@@ -197,7 +197,6 @@ class MovableObject extends DrawableObject {
         this.energy -= 20;
     }
 
-   
 
     /**
    * Play an animation for the object.
@@ -211,7 +210,7 @@ class MovableObject extends DrawableObject {
     }
 
     bottleSplash() {
-        return  this.loadImages(this.SALSA_BOTTLE_SPLASH);
+        return this.loadImages(this.SALSA_BOTTLE_SPLASH);
     }
 
     /**

@@ -111,4 +111,21 @@ function goToStartScreen() {
     location.reload();
 }
 
+window.addEventListener('resize', (e) => {
+    if (window.innerWidth < 850) {
+        toggleCanvas();
+    }
+})
 
+
+function toggleCanvas() {
+    let canvas = document.getElementById('canvas');
+
+    if (canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+    } else if (canvas.webkitRequestFullscreen) { /* Safari */
+        canvas.webkitRequestFullscreen();
+    } else if (canvas.msRequestFullscreen) { /* IE11 */
+        canvas.msRequestFullscreen();
+    }
+}

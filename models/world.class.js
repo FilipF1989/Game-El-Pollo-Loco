@@ -24,7 +24,7 @@ class World {
     throwableObjects = [];
     bottles = [];
 
-
+    
 
     constructor(canvas, keyboard) {
         this.document = document;
@@ -48,14 +48,13 @@ class World {
             this.checkThrowObjects();
             this.collectBottel();
             this.collectCoin();
+            this.passEndboss();
         }, 200);
         setInterval(() => {
             this.jumpOnEnemy();
             this.hitEnemyWithBottle();
         }, 50);
-
     }
-
 
 
     onOffFullscreen() {
@@ -95,9 +94,6 @@ class World {
     }
 
 
-
-
-
     /**
     * Toggles full-screen mode.
     */
@@ -107,25 +103,33 @@ class World {
         const fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
 
         if (!fullscreenElement) {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) {
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullScreen) {
-                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-            }
+            this.toggleToFullScreen();
             fullscreenbox.innerHTML = 'Minimize <br> Press F';
             changeScreen.src = 'img/11_icons/minimaze_screen.png';
         } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            }
+            this.exitFullscreen();
             fullscreenbox.innerHTML = 'Fullscreen <br> Press F';
             changeScreen.src = 'img/11_icons/fullscreen.png';
+        }
+    }
+
+    toggleToFullScreen() {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+    }
+
+    exitFullscreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
         }
     }
 
@@ -180,7 +184,6 @@ class World {
     hitBossWithBottle(boss, bottleIndex) {
         if (this.soundOn) {
             this.audios.bossHit.play();
-            this.audios.bossHit.play();
         }
         this.throwableObjects.splice(bottleIndex, 1);
         boss.hitEnemy();
@@ -197,6 +200,16 @@ class World {
                 this.statusbarLive.setProcentage(this.character.energy);
             }
         });
+    }
+
+    passEndboss() {
+        let passedBoss = false;
+        let boss = this.level.enemies.slice(-1)[0];
+    
+        if(this.character.x  >= boss.x + boss.width && !passedBoss) {
+            passedBoss = true;
+            this.character.gameLost();
+        }
     }
 
 
@@ -266,6 +279,7 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectToMap(this.level.backgroundObject);
+        this.addObjectToMap(this.level.clouds);
 
         this.addObjectToMap(this.level.collectableObjectsBottles);
         this.addObjectToMap(this.level.collectableObjectsCoins);
@@ -277,7 +291,6 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
-        this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.enemies);
         this.addObjectToMap(this.throwableObjects);
 
