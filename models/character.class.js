@@ -17,6 +17,7 @@ class Character extends MovableObject {
     width = 130;
     speed = 10;
     y = 70;
+
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -96,18 +97,19 @@ class Character extends MovableObject {
                 this.otherDirection = true;
             }
             if (this.world.keyboard.SPACE && !this.isAbouveGround()) {
+                this.onAction();
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead() && this.passedBoss()) {
+            if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.gameLost();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isIdleState()) {
+            } else if (this.isIdleState()) {  
                 this.playAnimation(this.IMAGES_SLEEP);
             } else if (this.isAbouveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);

@@ -11,6 +11,7 @@ class World {
     statusbarLive = new StatusbarLive();
     statusbarCoins = new StatusbarCoins();
     statusbarBottles = new StatusbarBottles();
+    throwableObject = new ThrowableObjects();
     audios = new Audios();
     soundOn = false;
     level = level1;
@@ -139,7 +140,7 @@ class World {
      */
     checkThrowObjects() {
         if (this.keyboard.D && this.bottles.length > 0) {
-            let bottle = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
+            let bottle = new ThrowableObjects(this.character.x + 100, this.character.y + 100, this.character.otherDirection);
             this.throwableObjects.push(bottle);
             this.bottles.shift();
             this.statusbarBottles.setBottleCounter(this.bottles.length);
@@ -202,6 +203,11 @@ class World {
         });
     }
 
+     
+    /**
+     * Check if character passes the endboss
+     * @date 11/14/2023 - 11:45:12 AM
+     */
     passEndboss() {
         let passedBoss = false;
         let boss = this.level.enemies.slice(-1)[0];
@@ -280,20 +286,18 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectToMap(this.level.backgroundObject);
         this.addObjectToMap(this.level.clouds);
-
         this.addObjectToMap(this.level.collectableObjectsBottles);
         this.addObjectToMap(this.level.collectableObjectsCoins);
-
         this.ctx.translate(-this.camera_x, 0);
+
         this.addToMap(this.statusbarLive);
         this.addToMap(this.statusbarCoins);
         this.addToMap(this.statusbarBottles);
-        this.ctx.translate(this.camera_x, 0);
 
+        this.ctx.translate(this.camera_x, 0);
         this.addToMap(this.character);
         this.addObjectToMap(this.level.enemies);
         this.addObjectToMap(this.throwableObjects);
-
         this.ctx.translate(-this.camera_x, 0);
 
 

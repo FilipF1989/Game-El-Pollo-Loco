@@ -85,9 +85,12 @@ class MovableObject extends DrawableObject {
     */
     jump() {
         this.speedY = 10;
+    }
+    
+    
+    setTimmerIdle() {
         this.onAction();
     }
-
 
     /**
     * Move the object to the right.

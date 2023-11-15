@@ -7,7 +7,7 @@ class DrawableObject {
     width = 150;
     height = 100;
     musicOn = false;
-
+    movedRight;
 
 
     loadImg(path) {
@@ -82,6 +82,7 @@ function init() {
     world = new World(canvas, keyboard);
 
     if (isNewGame === 'true') {
+        // canvasBox.style.display = 'block';
         initLevel();
         localStorage.removeItem('newGame');
     } else {
@@ -89,6 +90,11 @@ function init() {
     }
 }
 
+
+/**
+ * Reload the game
+ * @date 11/14/2023 - 12:41:38 PM
+ */
 function initLevel() {
     let startScreen = document.getElementById('startScreen');
     canvas = document.getElementById('canvas');
@@ -102,30 +108,52 @@ function initLevel() {
     });
 }
 
+/**
+ * Starts a new game if win or lose
+ */
 function newGame() {
     localStorage.setItem('newGame', 'true');
     location.reload();
 }
 
+
+/**
+ * Goes to startscreen if win or lose
+ * @date 11/14/2023 - 12:42:50 PM
+ */
 function goToStartScreen() {
     location.reload();
 }
 
-window.addEventListener('resize', (e) => {
-    if (window.innerWidth < 850) {
-        toggleCanvas();
-    }
-})
 
 
-function toggleCanvas() {
+/**
+ * Turns the mobile buttons on or off
+ * @date 11/14/2023 - 12:43:22 PM
+ */
+function adjustCanvasBoxVisibility() {
+    let canvasBox = document.querySelector('.canvasBox');
     let canvas = document.getElementById('canvas');
 
-    if (canvas.requestFullscreen) {
-        canvas.requestFullscreen();
-    } else if (canvas.webkitRequestFullscreen) { /* Safari */
-        canvas.webkitRequestFullscreen();
-    } else if (canvas.msRequestFullscreen) { /* IE11 */
-        canvas.msRequestFullscreen();
+
+    function updateVisibility() {
+        // Überprüfe die Display-Breite
+        let screenWidth = window.innerWidth;
+
+        // Überprüfe, ob die Breite im gewünschten Bereich liegt
+        if (screenWidth >= 850 && screenWidth <= 1100 && canvas.style.display == 'block') {
+            canvasBox.style.display = 'block';
+        } else {
+            canvasBox.style.display = 'none';
+        }
     }
+
+    // Rufe die Funktion beim Laden der Seite auf
+    updateVisibility();
+
+    // Füge ein Event-Listener für Änderungen der Display-Breite hinzu
+    window.addEventListener('resize', updateVisibility);
 }
+
+// Rufe die Funktion auf
+adjustCanvasBoxVisibility();

@@ -11,6 +11,8 @@ body {
     flex-direction: column;
     background-image: url(/img/5_background/complete_background.png);
     text-align: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .d-none {
@@ -19,7 +21,6 @@ body {
 
 h1 {
     font-size: 60px;
-    margin-top: 8%;
 }
 
 #gameConainer {
@@ -28,7 +29,6 @@ h1 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
 }
 
 
@@ -226,6 +226,7 @@ canvas {
     padding: 5px;
     margin-left: 15px;
     margin-right: 5px;
+    /* display: none; */
 }
 
 .moveContainer img {
@@ -240,19 +241,38 @@ canvas {
     bottom: 3%;
     width: 100%;
     height: 45px;
-    /* background-color: black; */
+    display: none;
 }
 #mobileScrenn {
     display: flex;
     align-items: center;
     justify-content: center;
     position: fixed;
+    flex-direction: column;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     background-color: gold;
     z-index: 5;
+    /* display: none; */
+}
+
+#allowFullscreenBtn {
+    border: 2px solid black;
+    border-style: dashed;
+    border-radius: 20px;
+    font-size: 2rem;
+    background-color: gold;
+    cursor: pointer;
+    font-family: cowboy_fonts, Arial, Helvetica, sans-serif;
+    padding: 10px;
+    transition: transform .3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+#allowFullscreenBtn:hover {
+    transform:scale(1.1);
+    background-color: rgb(229, 198, 23);
 }
 
 #throwBottleMobile {
@@ -261,7 +281,8 @@ canvas {
 
 h2 {
     border: 2px solid black;
-    padding: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     font-size: 2rem;
     max-width: 80%;
     border-style: dashed;
@@ -271,12 +292,12 @@ h2 {
 
 
 
-@media only screen and (min-width:850px) {
-    .canvasBox {
-        width: 100%;
-        height: 100vh;
-    }
+@media only screen and (min-width:820px) {
     /* .canvasBox {
-        display: none;
+        display: block;
     } */
+
+    #mobileScrenn {
+        display: none;
+    }
 }

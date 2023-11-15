@@ -13,6 +13,9 @@ class Keyboard {
     }
 
     bindClickEvents() {
+        
+
+        
         window.addEventListener('keydown', (e) => {
             if (e.keyCode == 39) {
                 keyboard.RIGHT = true;
@@ -40,6 +43,7 @@ class Keyboard {
             }
         });
 
+       
         window.addEventListener('keyup', (e) => {
             if (e.keyCode == 39) {
                 keyboard.RIGHT = false;
@@ -58,13 +62,12 @@ class Keyboard {
                 if (world.soundOn) {
                     world.audios.charackter_jump.play();
                 }
-
             }
             if (e.keyCode == 68) {
                 keyboard.D = false;
             }
-
         });
+
     }
 
 

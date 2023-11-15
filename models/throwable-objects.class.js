@@ -20,6 +20,7 @@ class ThrowableObjects extends MovableObject {
         left: 0
     }
 
+    moveRight = false;
     bottleHit = false;
 
     /**
@@ -44,10 +45,11 @@ class ThrowableObjects extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-    constructor(x, y) {
+    constructor(x, y, direction) {
         super();
         this.loadImages(this.SALSA_BOTTLE_FLY);
         this.loadImages(this.SALSA_BOTTLE_SPLASH);
+        this.movedRight = direction;
         this.x = x;
         this.y = y;
         this.width = 60;
@@ -55,14 +57,22 @@ class ThrowableObjects extends MovableObject {
         this.throw();
     }
 
+    
     throw() {
         this.speedY = 18;
         this.apllyGravity();
+        
         setInterval(() => {
-        this.playAnimation(this.SALSA_BOTTLE_FLY);
-            this.x += 22;
+            if (!this.movedRight) {
+                this.x += 22;
+            } else {
+                this.x -= 22;
+            }
+            this.playAnimation(this.SALSA_BOTTLE_FLY);
         }, 25);
     }
+    
 }
+
 
 
