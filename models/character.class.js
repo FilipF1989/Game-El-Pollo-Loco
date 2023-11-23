@@ -55,6 +55,19 @@ class Character extends MovableObject {
         'img/2_character_pepe/4_hurt/H-43.png'
     ]
 
+    IMAGES_IDLE = [
+        'img/2_character_pepe/1_idle/idle/I-1.png',
+        'img/2_character_pepe/1_idle/idle/I-2.png',
+        'img/2_character_pepe/1_idle/idle/I-3.png',
+        'img/2_character_pepe/1_idle/idle/I-4.png',
+        'img/2_character_pepe/1_idle/idle/I-5.png',
+        'img/2_character_pepe/1_idle/idle/I-6.png',
+        'img/2_character_pepe/1_idle/idle/I-7.png',
+        'img/2_character_pepe/1_idle/idle/I-8.png',
+        'img/2_character_pepe/1_idle/idle/I-9.png',
+        'img/2_character_pepe/1_idle/idle/I-10.png'
+    ]
+
     IMAGES_SLEEP = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -80,12 +93,17 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_SLEEP);
+        this.loadImages(this.IMAGES_IDLE);
         this.apllyGravity();
         this.animate();
     }
 
 
 
+    /**
+     * Animate the character based on the interaction
+     * @date 11/22/2023 - 12:05:55 PM
+     */
     animate() {
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -109,7 +127,9 @@ class Character extends MovableObject {
                 this.gameLost();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isIdleState()) {  
+            } else if (this.isIdleState()) {
+                this.playAnimation(this.IMAGES_IDLE);
+            } else if (this.isLongIdleState()) {
                 this.playAnimation(this.IMAGES_SLEEP);
             } else if (this.isAbouveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
@@ -118,11 +138,15 @@ class Character extends MovableObject {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-        }, 30);
+        }, 70);
     }
 
 
 
+    /**
+     * Function thalt let character jump
+     * @date 11/22/2023 - 12:07:15 PM
+     */
     jump() {
         this.speedY = 30;
     }

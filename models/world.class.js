@@ -1,8 +1,11 @@
 
-
-
-
-
+/**
+ * Class that include the entire game instances
+ * @date 11/23/2023 - 10:35:27 AM
+ *
+ * @class World
+ * @typedef {World}
+ */
 class World {
     character = new Character();
     chicken = new Chicken();
@@ -25,8 +28,15 @@ class World {
     throwableObjects = [];
     bottles = [];
 
-    
 
+    /**
+     * Creates an instance of World.
+     * @date 11/23/2023 - 10:36:10 AM
+     *
+     * @constructor
+     * @param {Game canvas } canvas
+     * @param {Includes the keyboard events} keyboard
+     */
     constructor(canvas, keyboard) {
         this.document = document;
         this.ctx = canvas.getContext('2d');
@@ -37,12 +47,19 @@ class World {
         this.run();
     }
 
+
+    /**
+     * Sets the world for the game.
+     */
     setWorld() {
         this.character.world = this;
     }
 
+
+    /**
+     * Initiates the game and sets up recurring actions.
+     */
     run() {
-        this.onOffFullscreen();
         this.onOffMusicWithClick();
         setInterval(() => {
             this.checkCollisions();
@@ -58,18 +75,14 @@ class World {
     }
 
 
-    onOffFullscreen() {
-        this.document.querySelector('.screen').addEventListener('click', () => {
-            this.toggleFullScreen();
-        })
-    }
-
+    /**
+     * Toggles the music on or off with a click.
+     */
     onOffMusicWithClick() {
         this.document.getElementById('playMusicIcon').addEventListener('click', () => {
             this.onOffMusic();
         })
     }
-
 
 
     /**
@@ -100,37 +113,41 @@ class World {
     */
     toggleFullScreen() {
         const changeScreen = document.querySelector('.screenIcon');
-        let fullscreenbox = document.querySelector('.fullscreenBox');
-        const fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+        let canvas = this.document.getElementById('canvas');
+        const fullscreenElement = document.fullscreenElement || document.mozFullScreenElement;
+
 
         if (!fullscreenElement) {
-            this.toggleToFullScreen();
-            fullscreenbox.innerHTML = 'Minimize <br> Press F';
-            changeScreen.src = 'img/11_icons/minimaze_screen.png';
+            this.toggleToFullScreen(canvas);
         } else {
-            this.exitFullscreen();
-            fullscreenbox.innerHTML = 'Fullscreen <br> Press F';
-            changeScreen.src = 'img/11_icons/fullscreen.png';
+            this.exitFullscreen();m
         }
     }
 
-    toggleToFullScreen() {
-        if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen();
-        } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullScreen) {
-            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+
+    /**
+     * Return the function to enter fullscrenn
+     * @date 11/20/2023 - 2:07:04 PM
+     */
+    toggleToFullScreen(canvas) {
+        if (canvas.requestFullscreen) {
+            canvas.requestFullscreen();
+        } else if (canvas.mozRequestFullScreen) {
+            canvas.mozRequestFullScreen();
         }
     }
 
+
+    /**
+     * Return the function to exit fullscrenn
+     * @date 11/20/2023 - 2:07:04 PM
+     */
     exitFullscreen() {
+
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {
             document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
         }
     }
 
@@ -140,11 +157,12 @@ class World {
      */
     checkThrowObjects() {
         if (this.keyboard.D && this.bottles.length > 0) {
-            let bottle = new ThrowableObjects(this.character.x + 100, this.character.y + 100, this.character.otherDirection);
+            let bottle = new ThrowableObjects(this.character.x + 100, this.character.y + 100, this.character.otherDirection, this.character.onAction());
             this.throwableObjects.push(bottle);
             this.bottles.shift();
             this.statusbarBottles.setBottleCounter(this.bottles.length);
             this.hitEnemyWithBottle();
+
         }
     }
 
@@ -168,6 +186,14 @@ class World {
         });
     }
 
+
+    /**
+ * Hits the chicken enemy with a bottle, triggering necessary actions.
+ *
+ * @param {Object} enemy - The chicken enemy object.
+ * @param {number} bottleIndex - The index of the thrown bottle in the throwableObjects array.
+ * @param {number} index - The index of the chicken enemy in the enemies array.
+ */
     hitChickenWithBottle(enemy, bottleIndex, index) {
         enemy.hitEnemy();
         if (this.soundOn) {
@@ -182,6 +208,14 @@ class World {
         }
     }
 
+
+    /**
+     * Return the function that hurt the endboss
+     * @date 11/20/2023 - 2:09:22 PM
+     *
+     * @param {The last value of the enemys array} boss
+     * @param {The index of the bottle } bottleIndex
+     */
     hitBossWithBottle(boss, bottleIndex) {
         if (this.soundOn) {
             this.audios.bossHit.play();
@@ -203,7 +237,7 @@ class World {
         });
     }
 
-     
+
     /**
      * Check if character passes the endboss
      * @date 11/14/2023 - 11:45:12 AM
@@ -211,8 +245,8 @@ class World {
     passEndboss() {
         let passedBoss = false;
         let boss = this.level.enemies.slice(-1)[0];
-    
-        if(this.character.x  >= boss.x + boss.width && !passedBoss) {
+
+        if (this.character.x >= boss.x + boss.width && !passedBoss) {
             passedBoss = true;
             this.character.gameLost();
         }

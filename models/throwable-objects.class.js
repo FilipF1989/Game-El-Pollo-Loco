@@ -3,11 +3,6 @@
  * Extends the MovableObject class.
  */
 class ThrowableObjects extends MovableObject {
-    /**
-     * Create a new ThrowableObjects instance.
-     * @param {number} x - The initial x-coordinate of the throwable object.
-     * @param {number} y - The initial y-coordinate of the throwable object.
-     */
 
     /**
      * An object representing the offset values for collision detection.
@@ -45,6 +40,17 @@ class ThrowableObjects extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
+
+    
+    /**
+     * Creates an instance of ThrowableObjects.
+     * @date 11/22/2023 - 12:23:36 PM
+     *
+     * @constructor
+     * @param {x coordinate od throwableObject} x
+     * @param {y coordinate od throwableObject} y
+     * @param {boolean of otherDirection of the character} direction
+     */
     constructor(x, y, direction) {
         super();
         this.loadImages(this.SALSA_BOTTLE_FLY);
@@ -58,10 +64,15 @@ class ThrowableObjects extends MovableObject {
     }
 
     
+    /**
+     * Function that let the bottle fly
+     * @date 11/22/2023 - 12:24:54 PM
+     */
     throw() {
         this.speedY = 18;
         this.apllyGravity();
-        
+        this.onAction();
+
         setInterval(() => {
             if (!this.movedRight) {
                 this.x += 22;

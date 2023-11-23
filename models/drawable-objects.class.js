@@ -1,3 +1,11 @@
+
+/**
+ * Creates a class for all drawable objects
+ * @date 11/22/2023 - 12:12:44 PM
+ *
+ * @class DrawableObject
+ * @typedef {DrawableObject}
+ */
 class DrawableObject {
     img;
     imageCash = {};
@@ -10,17 +18,27 @@ class DrawableObject {
     movedRight;
 
 
+    /**
+ * Loads an image from the specified path and sets it to the object's img property.
+ * @param {string} path - The path to the image file.
+ * @returns {void}
+ */
     loadImg(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
+
+    /**
+ * Draws the object's image on the canvas context.
+ * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
+ * @returns {void}
+ */
     draw(ctx) {
         try {
             ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         } catch (e) {
-            // console.warn('Console log', e);
-            // console.log('Could not load imae', this.img.src);
+            console.log(e);
         }
     }
 
@@ -36,7 +54,11 @@ class DrawableObject {
         }, 1000 / 40);
     }
 
-
+/**
+ * Loads images from the provided array and stores them in the image cache.
+ * @param {string[]} arr - An array of image paths to be loaded.
+ * @returns {void}
+ */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
@@ -45,6 +67,17 @@ class DrawableObject {
         });
     }
 
+
+    /**
+ * Plays an animation by updating the object's image from the provided array.
+ * @param {string[]} images - An array of image paths for the animation.
+ * @returns {void}
+ */
+
+    /**
+ * Toggles the music on/off.
+ * @returns {void}
+ */
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -61,6 +94,15 @@ class DrawableObject {
     }
 }
 
+
+/**
+ * Creates a class with all sounds in the game
+ * @date 11/22/2023 - 12:17:08 PM
+ *
+ * @class Audios
+ * @typedef {Audios}
+ * @extends {DrawableObject}
+ */
 class Audios extends DrawableObject {
     charackter_jump = new Audio('audio/jump.mp3');
     collectCoinMusic = new Audio('audio/collect_coin.mp3');
@@ -74,6 +116,10 @@ class Audios extends DrawableObject {
 
 
 
+/**
+ * Load the game
+ * @date 11/22/2023 - 12:17:34 PM
+ */
 function init() {
     let startScreen = document.querySelector('.d-none');
     const isNewGame = localStorage.getItem('newGame');
@@ -82,12 +128,12 @@ function init() {
     world = new World(canvas, keyboard);
 
     if (isNewGame === 'true') {
-        // canvasBox.style.display = 'block';
         initLevel();
         localStorage.removeItem('newGame');
     } else {
         startScreen.style.display = 'block';
     }
+
 }
 
 
@@ -106,6 +152,8 @@ function initLevel() {
     world.level.enemies.forEach((enemy) => {
         enemy.animate();
     });
+    adjustCanvasBoxVisibility();
+
 }
 
 /**
@@ -141,19 +189,16 @@ function adjustCanvasBoxVisibility() {
         let screenWidth = window.innerWidth;
 
         // Überprüfe, ob die Breite im gewünschten Bereich liegt
-        if (screenWidth >= 850 && screenWidth <= 1100 && canvas.style.display == 'block') {
+        if (screenWidth <= 1100 && canvas.style.display == 'block') {
             canvasBox.style.display = 'block';
         } else {
             canvasBox.style.display = 'none';
         }
     }
 
-    // Rufe die Funktion beim Laden der Seite auf
     updateVisibility();
 
-    // Füge ein Event-Listener für Änderungen der Display-Breite hinzu
     window.addEventListener('resize', updateVisibility);
 }
 
-// Rufe die Funktion auf
 adjustCanvasBoxVisibility();

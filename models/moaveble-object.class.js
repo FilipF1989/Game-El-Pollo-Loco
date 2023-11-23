@@ -40,7 +40,15 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
 
 
-    isIdle = false;
+    /**
+     * Boolean for idle state
+     * @date 11/23/2023 - 11:02:38 AM
+     *
+     * @type {boolean}
+     */
+    isIdle = 0;
+    isLongIdle = 0;
+
 
     /**
      * Defines the offset properties for collision detection.
@@ -80,17 +88,14 @@ class MovableObject extends DrawableObject {
         }
     }
 
+
     /**
     * Make the object jump.
     */
     jump() {
         this.speedY = 10;
     }
-    
-    
-    setTimmerIdle() {
-        this.onAction();
-    }
+
 
     /**
     * Move the object to the right.
@@ -109,23 +114,6 @@ class MovableObject extends DrawableObject {
         this.onAction();
     }
 
-    resetIsIdleTimer() {
-        clearTimeout(this.idleTimer); // Timer zurücksetzen, falls er bereits aktiv ist
-        this.idleTimer = setTimeout(() => {
-            this.isIdle = true;
-        }, 3000); // 3000 Millisekunden (3 Sekunden)
-    }
-
-    isIdleState() {
-        return this.isIdle;
-    }
-
-    onAction() {
-        this.isIdle = false; // Setze isIdle auf false
-        this.resetIsIdleTimer(); // Starte den Timer erneut
-    }
-
-
 
     /**
      * Check if the object is colliding with another object.
@@ -143,13 +131,14 @@ class MovableObject extends DrawableObject {
    * Reduce the object's energy when hit by an enemy.
    */
     hitEnemy() {
-        this.energy -= 20;
+        this.energy -= 40;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
             this.lastHitOnEnemy = new Date().getTime();
         }
     }
+
 
 
     /**
@@ -185,6 +174,49 @@ class MovableObject extends DrawableObject {
         return timePassed < 1;
     }
 
+
+    /**
+ * Check if the object is in an idle state.
+ * @returns {boolean} True if idle, false otherwise.
+ */
+    isIdleState() {
+        let timePassed = new Date().getTime() - this.isIdle;
+        timePassed = timePassed / 1000;
+
+        if (timePassed > 0 && timePassed < 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+ * Check if the object is in a long idle state.
+ * @returns {boolean} True if in long idle state, false otherwise.
+ */
+    isLongIdleState() {
+        let timePassed = new Date().getTime() - this.isLongIdle;
+        timePassed = timePassed / 1000;
+
+        if (timePassed >= 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+ * Update the idle state timestamps when an action is performed.
+ */
+    onAction() {
+        this.isIdle = new Date().getTime();
+        this.isLongIdle = new Date().getTime();
+    }
+
+
+
     /**
      * Check if the object is dead.
      * @returns {boolean} True if dead, false otherwise.
@@ -212,16 +244,45 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
+
+
+    /**
+     * Resturn the bottle splash animation
+     * @date 11/22/2023 - 12:20:04 PM
+     */
     bottleSplash() {
         return this.loadImages(this.SALSA_BOTTLE_SPLASH);
     }
+
+
+
+    /**
+     * Exit the fullscreen modus
+     * @date 11/22/2023 - 12:19:50 PM
+     */
+    exitFullscreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    }
+
 
     /**
      * Trigger a game win event.
      */
     gameWin() {
+        let canvasBox = document.querySelector('.canvasBox');
         let gameOverScreen = document.querySelector('.gameOver');
         let canvas = document.getElementById('canvas');
+
+        this.exitFullscreen();
+        canvasBox.style.display = 'none';
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
             canvas.style.display = 'none';
@@ -236,7 +297,10 @@ class MovableObject extends DrawableObject {
         let gameOverScreen = document.querySelector('.gameOver');
         let canvas = document.getElementById('canvas');
         let endGameScreen = document.querySelector('.lostOrWinScreen');
+        let canvasBox = document.querySelector('.canvasBox');
 
+        this.exitFullscreen();
+        canvasBox.style.display = 'none';
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
             canvas.style.display = 'none';

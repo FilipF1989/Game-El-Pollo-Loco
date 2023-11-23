@@ -1,3 +1,11 @@
+
+/**
+ * Class for all keyboards events
+ * @date 11/22/2023 - 12:18:23 PM
+ *
+ * @class Keyboard
+ * @typedef {Keyboard}
+ */
 class Keyboard {
     LEFT = false;
     RIGHT = false;
@@ -7,15 +15,25 @@ class Keyboard {
     D = false;
 
 
+    
+    /**
+     * Creates an instance of Keyboard.
+     * @date 11/22/2023 - 12:18:45 PM
+     *
+     * @constructor
+     */
     constructor() {
         this.bindTouchEvents();
         this.bindClickEvents();
     }
 
-    bindClickEvents() {
-        
 
-        
+    
+    /**
+     * bind all functions to target keyboard events
+     * @date 11/22/2023 - 12:19:07 PM
+     */
+    bindClickEvents() {
         window.addEventListener('keydown', (e) => {
             if (e.keyCode == 39) {
                 keyboard.RIGHT = true;
