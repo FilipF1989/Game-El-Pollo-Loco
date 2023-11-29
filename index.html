@@ -12,18 +12,13 @@
 
 <body onload="init()">
     <h1>El Pollo loco</h1>
-    <div id="fullscreen">
+   
         <div class="d-none">
             <div id="startScreen">
                 <div id="gameSettings">
-                    <div class="iconBox screen ">
-                        <img src="/img/11_icons/fullscreen.png" class="screenIcon" alt="">
-                        <span class="fullscreenBox">For fullscreen  PRESS F <br> <b>ONLY WHILE PLAYING</b></span>
-
-                    </div>
                     <div class="iconBox gameSettingBox cp" id="playMusicIcon">
                         <img src="/img/11_icons/sound_on.png" alt="" id="musicSrc">
-                        <span id="soundBox">Play game music <br> Press M</span>
+                        <span id="soundBox">Play game music <br> <span class="mobile">Press M</span></span>
                     </div>
                     <div class="iconBox cp" id="playGame" onclick="initLevel()">
                         <img src="/img/11_icons/play_game.png" alt="">
@@ -58,7 +53,7 @@
             </div>
         </div>
 
-    </div>
+    
 
     <div id="canvasContainer">
         <canvas id="canvas" width="720" height="480px"></canvas>
@@ -82,6 +77,7 @@
 
     <script src="models/drawable-objects.class.js"></script>
     <script src="models/moaveble-object.class.js"></script>
+    <script src="models/audios.class.js"></script>
     <script src="models/character.class.js"></script>
     <script src="models/collectableObjects.class.js"></script>
     <script src="models/statusbar-live.class.js"></script>
@@ -93,7 +89,7 @@
     <script src="models/background-object.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/throwable-objects.class.js"></script>
-
+    
     <script src="models/level.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="levels/level1.js"></script>

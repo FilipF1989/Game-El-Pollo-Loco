@@ -12,6 +12,7 @@ body {
     align-items: center;
     flex-direction: column;
     background-image: url(/img/5_background/complete_background.png);
+    background-repeat: no-repeat;
     text-align: center;
     height: 100vh;
     overflow: hidden;
@@ -293,54 +294,88 @@ h2 {
 
 
 
-@media only screen and (min-width:600px) {
 
-    #mobileScrenn {
-        display: none;
+
+@media only screen and (max-width: 1000px) {
+    #canvas {
+        width: 80vw;
+        overflow: hidden;
     }
 
-}
-
-@media only screen and (max-width: 850px) {
     #startScreen {
         width: 100vw;
-    }
-
-    #canvas {
-        width: 100vw;
-    }
-     .canvasBox {
-        display: block;
-    } 
-}
-
-@media only screen and (orientation: landscape) and (max-width: 1000px) {
-    #canvas {
-        width: 100vw;
-        height: 100vh;
+        overflow: hidden;
     }
 
     #endGameScreen {
         width: 100vw;
+    }
+
+    .newGameBtn {
+        bottom: 2%;
+        left: 35%;
+    }
+
+    .goToStartScreen {
+        bottom: 2%;
+        right: 35%;
+    }
+}
+
+@media only screen and (max-width: 850px) {
+
+    #startScreen {
+        width: 100vw;
+        /* height: 100vh; */
+    }
+
+    #canvas {
+        width: 100vw;
+        /* height: 100vh; */
+    }
+
+    .mobile {
+        display: none;
+    }
+}
+
+
+@media only screen and (max-width: 1000px) and (max-height:800px) {
+    #canvas {
+        width: 100vw;
         height: 100vh;
         overflow: hidden;
-        border: none;
+    }
 
+    #startScreen {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
     }
 
     h1 {
         display: none;
     }
 
-    #startScreen {
+    #endGameScreen {
         width: 100vw;
-        height: 100vh; 
-        overflow: hidden;
-        border: none;
+        height: 100vh;
     }
 
-    .screen {
-        display: none;
+    .newGameBtn {
+        bottom: 2%;
+        left: 35%;
+    }
+
+    .goToStartScreen {
+        bottom: 2%;
+        right: 35%;
     }
 }
 
+
+@media only screen and (min-width:650px) {
+    #mobileScrenn {
+        display: none;
+    }
+}

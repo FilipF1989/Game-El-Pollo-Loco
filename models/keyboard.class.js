@@ -15,7 +15,6 @@ class Keyboard {
     D = false;
 
 
-    
     /**
      * Creates an instance of Keyboard.
      * @date 11/22/2023 - 12:18:45 PM
@@ -28,7 +27,6 @@ class Keyboard {
     }
 
 
-    
     /**
      * bind all functions to target keyboard events
      * @date 11/22/2023 - 12:19:07 PM
@@ -55,9 +53,6 @@ class Keyboard {
             }
             if (e.keyCode == 77) {
                 world.onOffMusic();
-            }
-            if (e.keyCode == 70) {
-                world.toggleFullScreen();
             }
         });
 

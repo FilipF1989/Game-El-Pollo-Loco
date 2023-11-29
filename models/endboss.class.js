@@ -11,6 +11,7 @@ class Endboss extends MovableObject {
     };
 
     firstContactWitchCharackter = false; // Flag to track the first contact with the character.
+    animationRunning = false;
     height = 400; // Height of the end boss.
     width = 270; // Width of the end boss.
     game_win = new Audio('audio/game_win_sound.mp3'); // Audio for winning the game.
@@ -85,7 +86,10 @@ class Endboss extends MovableObject {
                     }
                     if (world.character.x > 1961 && !this.firstContactWitchCharackter) {
                         this.firstContactWitchCharackter = true;
-                        this.enemyAtackAnimation();
+                        if (!this.animationRunning) {
+                            this.animationRunning = true;
+                            this.enemyAtackAnimation();
+                        }
                     }
                 }, 150);
             }, 100);
@@ -96,7 +100,7 @@ class Endboss extends MovableObject {
      * Animate the end boss's attack behavior.
      */
     enemyAtackAnimation() {
-        setInterval(() => {
+        const animatioInterval = setInterval(() => {
             if (this.enemyIsHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
                 this.moveLeft();
@@ -107,5 +111,13 @@ class Endboss extends MovableObject {
                 this.moveLeft();
             }
         }, 150);
+        setTimeout(() => {
+            clearInterval(animatioInterval);
+            this.enemyAtackAnimation();
+        }, 10000);
     }
+
+
+
+
 }

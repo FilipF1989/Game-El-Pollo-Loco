@@ -108,48 +108,6 @@ class World {
     }
 
 
-    /**
-    * Toggles full-screen mode.
-    */
-    toggleFullScreen() {
-        const changeScreen = document.querySelector('.screenIcon');
-        let canvas = this.document.getElementById('canvas');
-        const fullscreenElement = document.fullscreenElement || document.mozFullScreenElement;
-
-
-        if (!fullscreenElement) {
-            this.toggleToFullScreen(canvas);
-        } else {
-            this.exitFullscreen();m
-        }
-    }
-
-
-    /**
-     * Return the function to enter fullscrenn
-     * @date 11/20/2023 - 2:07:04 PM
-     */
-    toggleToFullScreen(canvas) {
-        if (canvas.requestFullscreen) {
-            canvas.requestFullscreen();
-        } else if (canvas.mozRequestFullScreen) {
-            canvas.mozRequestFullScreen();
-        }
-    }
-
-
-    /**
-     * Return the function to exit fullscrenn
-     * @date 11/20/2023 - 2:07:04 PM
-     */
-    exitFullscreen() {
-
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        }
-    }
 
 
     /**
@@ -247,6 +205,9 @@ class World {
         let boss = this.level.enemies.slice(-1)[0];
 
         if (this.character.x >= boss.x + boss.width && !passedBoss) {
+            setInterval(() => {
+                this.character.onAction();
+            }, 200);
             passedBoss = true;
             this.character.gameLost();
         }

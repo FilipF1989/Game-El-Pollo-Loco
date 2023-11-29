@@ -142,9 +142,8 @@ class Character extends MovableObject {
     }
 
 
-
     /**
-     * Function thalt let character jump
+     * Function that let character jump
      * @date 11/22/2023 - 12:07:15 PM
      */
     jump() {

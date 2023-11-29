@@ -65,12 +65,11 @@ class MovableObject extends DrawableObject {
     /**
     * Apply gravity to the object, making it fall if not on the ground.
     */
-    apllyGravity() {
+    mapllyGravity() {
         setInterval(() => {
             if (this.isAbouveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.accelerataion;
-
             }
         }, 1000 / 40);
     }
@@ -127,6 +126,7 @@ class MovableObject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
 
+
     /**
    * Reduce the object's energy when hit by an enemy.
    */
@@ -138,7 +138,6 @@ class MovableObject extends DrawableObject {
             this.lastHitOnEnemy = new Date().getTime();
         }
     }
-
 
 
     /**
@@ -183,7 +182,7 @@ class MovableObject extends DrawableObject {
         let timePassed = new Date().getTime() - this.isIdle;
         timePassed = timePassed / 1000;
 
-        if (timePassed > 0 && timePassed < 3) {
+        if (timePassed > 1 && timePassed < 3) {
             return true;
         } else {
             return false;
@@ -216,7 +215,6 @@ class MovableObject extends DrawableObject {
     }
 
 
-
     /**
      * Check if the object is dead.
      * @returns {boolean} True if dead, false otherwise.
@@ -224,6 +222,7 @@ class MovableObject extends DrawableObject {
     isDead() {
         return this.energy === 0;
     }
+
 
     /**
      * Reduce the object's energy when hit by the end boss.
@@ -245,31 +244,12 @@ class MovableObject extends DrawableObject {
     }
 
 
-
     /**
      * Resturn the bottle splash animation
      * @date 11/22/2023 - 12:20:04 PM
      */
     bottleSplash() {
         return this.loadImages(this.SALSA_BOTTLE_SPLASH);
-    }
-
-
-
-    /**
-     * Exit the fullscreen modus
-     * @date 11/22/2023 - 12:19:50 PM
-     */
-    exitFullscreen() {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        }
     }
 
 
@@ -281,7 +261,6 @@ class MovableObject extends DrawableObject {
         let gameOverScreen = document.querySelector('.gameOver');
         let canvas = document.getElementById('canvas');
 
-        this.exitFullscreen();
         canvasBox.style.display = 'none';
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
@@ -299,7 +278,6 @@ class MovableObject extends DrawableObject {
         let endGameScreen = document.querySelector('.lostOrWinScreen');
         let canvasBox = document.querySelector('.canvasBox');
 
-        this.exitFullscreen();
         canvasBox.style.display = 'none';
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
@@ -308,6 +286,4 @@ class MovableObject extends DrawableObject {
             endGameScreen.src = 'img/9_intro_outro_screens/game_over/oh no you lost!.png';
         }, 2000);
     }
-
-
 }
